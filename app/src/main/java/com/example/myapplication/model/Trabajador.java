@@ -1,5 +1,7 @@
 package com.example.myapplication.model;
 
+import android.content.ContentValues;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Trabajador implements Serializable{
+public class Trabajador implements Serializable {
 
     private String idempresa;
     private String idtrabajador;
@@ -122,5 +124,20 @@ public class Trabajador implements Serializable{
 
     public void setFecha_liquidado(String fecha_liquidado) {
         this.fecha_liquidado = fecha_liquidado;
+    }
+    public ContentValues toValues() {
+        ContentValues values = new ContentValues();
+        values.put("idempresa", idempresa);
+        values.put("idtrabajador", idtrabajador);
+        values.put("nombresall", nombresall);
+        values.put("habilitado", habilitado);
+        values.put("cnrodocumento", cnrodocumento);
+        values.put("idplanilla", idplanilla);
+        values.put("listanegra", listanegra);
+        values.put("liquidado", liquidado);
+        values.put("fecha_ingreso", fecha_ingreso);
+        values.put("fecha_cese", fecha_cese);
+        values.put("fecha_liquidado", fecha_liquidado);
+        return values;
     }
 }

@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Toast.makeText(MainActivity.this, "elapsedTime : " +elapsedTime  + "ms", Toast.LENGTH_SHORT).show();
 
-                Log.d("Tiempo de respuesta", "Tiempo total: " + elapsedTime + "ms");
 
             }
             @Override
