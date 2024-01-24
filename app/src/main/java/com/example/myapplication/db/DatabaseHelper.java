@@ -41,7 +41,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS usuarios");
         onCreate(db);
     }
+
     public void saveTrabajador(Trabajador trabajador) {
+        SQLiteDatabase database = getWritableDatabase();
         database.insert("usuarios", null, trabajador.toValues());
         database.close();
     }
