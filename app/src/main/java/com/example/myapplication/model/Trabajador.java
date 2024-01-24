@@ -1,23 +1,13 @@
 package com.example.myapplication.model;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+
 public class Trabajador implements Serializable {
 
     private String idempresa;
@@ -140,4 +130,6 @@ public class Trabajador implements Serializable {
         values.put("fecha_liquidado", fecha_liquidado);
         return values;
     }
+
+
 }

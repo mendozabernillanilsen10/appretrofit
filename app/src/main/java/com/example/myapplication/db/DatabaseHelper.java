@@ -11,11 +11,8 @@ import com.example.myapplication.model.Trabajador;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "nombre_de_tu_base_de_datos";
-    private static final int DATABASE_VERSION = 1;
-
-    public DatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
     }
 
     @Override
@@ -36,8 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Si quieres realizar una actualización más compleja, puedes hacerlo aquí
-        // Por ejemplo, migrar datos de la versión anterior a la nueva
+
         db.execSQL("DROP TABLE IF EXISTS usuarios");
         onCreate(db);
     }
@@ -48,5 +44,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    // Resto del código...
 }
