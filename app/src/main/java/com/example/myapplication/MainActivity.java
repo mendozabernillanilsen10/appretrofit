@@ -23,7 +23,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
     private Button filledTonalButton;
     private TextView textView10;
     private RecyclerView recyclerViewPopular;
