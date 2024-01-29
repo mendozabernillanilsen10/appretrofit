@@ -130,6 +130,18 @@ public class Trabajador implements Serializable {
         values.put("fecha_liquidado", fecha_liquidado);
         return values;
     }
-
+    public void fromValues(ContentValues values) {
+        idempresa = values.getAsString("idempresa");
+        idtrabajador = values.getAsString("idtrabajador");
+        nombresall = values.getAsString("nombresall");
+        habilitado = values.getAsInteger("habilitado");
+        cnrodocumento = values.getAsString("cnrodocumento");
+        idplanilla = values.getAsString("idplanilla");
+        listanegra = values.getAsString("listanegra");
+        liquidado = values.getAsString("liquidado");
+        fecha_ingreso = values.getAsString("fecha_ingreso");
+        fecha_cese = values.getAsString("fecha_cese");
+        fecha_liquidado = values.getAsString("fecha_liquidado");
+    }
 
 }

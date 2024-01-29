@@ -1,4 +1,6 @@
 package com.example.myapplication;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Cliente.conn;
@@ -19,26 +20,43 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private Button filledTonalButton;
     private TextView textView10;
+    private Button  segundaPantalla;
     private RecyclerView recyclerViewPopular;
     private SweetAlertDialog loadingDialog;
 
+
+
+
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView10 = findViewById(R.id.textView10);
         filledTonalButton = findViewById(R.id.filledTonalButton);
+        segundaPantalla = findViewById(R.id.segundaPantalla);
+
+        segundaPantalla.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MainActivity4.class);
+            startActivity(intent);
+        });
+/*
         filledTonalButton.setOnClickListener(v -> {
             new DownloadAndSaveTask().execute();
         });
-    }
 
+
+
+*/
+    }
+/*
     private class DownloadAndSaveTask extends AsyncTask<Void, Void, List<Trabajador>> {
         private long startTime;
         private long downloadTime;
@@ -47,16 +65,14 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
             loadingDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             loadingDialog.setCancelable(false);
-            loadingDialog.setTitleText("Sincronizando...");
+            loadingDialog.setTitleText("| Descargando...");
             loadingDialog.show();
             startTime = System.currentTimeMillis();
         }
         @Override
         protected List<Trabajador> doInBackground(Void... voids) {
-
             Service ser = conn.Mediador();
-            Call<List<Trabajador>> call = ser.obtenerTrabajadores();
-
+            Call<optner_lista_one> call = ser.optner_lista_one();
             try {
                 Response<List<Trabajador>> response = call.execute();
                 if (response.isSuccessful()) {
@@ -67,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(List<Trabajador> trabajadores) {
             super.onPostExecute(trabajadores);
@@ -108,5 +123,5 @@ public class MainActivity extends AppCompatActivity {
                 database.endTransaction();
             }
         }
-    }
+    }*/
 }

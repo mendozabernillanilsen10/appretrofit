@@ -15,8 +15,18 @@
             android:id="@+id/filledTonalButton"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-
+            android:background="@color/md_theme_dark_inversePrimary"
             style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sincronizar " />
+
+        <Button
+            android:id="@+id/segundaPantalla"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/md_theme_dark_inversePrimary"
+            style="@style/Widget.Material3.ActionBar.Solid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sincronizar " />
