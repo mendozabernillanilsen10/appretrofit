@@ -104,8 +104,9 @@ public class MainActivity4 extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<Map<String, Object>> dynamicList = response.body();
 
-                    objet_t5 obj = new objet_t5();
-                    obj.setDynamicList(dynamicList);
+                    Map<String, Object> dataList = dynamicList.get(10000);
+                    textView.setText(dataList.toString());
+
                     adapterPopular = new TrabajadorAdapter(dynamicList);
                     recyclerViewPopular.setAdapter(adapterPopular);
 

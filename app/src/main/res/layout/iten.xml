@@ -8,14 +8,7 @@
     android:background="@color/md_theme_light_tertiaryContainer"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/fechaTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="hola"
-        android:textAlignment="center"
-        android:textColor="@color/md_theme_light_primary"
-        android:textStyle="bold" />
+
 
 
     <TextView

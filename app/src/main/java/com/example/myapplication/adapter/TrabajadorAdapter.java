@@ -27,11 +27,13 @@ public class TrabajadorAdapter extends RecyclerView.Adapter<TrabajadorAdapter.Vi
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.iten, parent, false);
         return new ViewHolder(inflate);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.titleTxt.setText( "#"+ position +" " +items.get(position).get("detalle"));
+        holder.titleTxt.setText( "#"+ position +" " +items.get(position).get("iddatabase") +
+                " " + items.get(position).get("idempresa") + " " + items.get(position).get("idtrabajador")  +
+                " " + items.get(position).get("detalle")  +
+                " " + items.get(position).get("nombres")  );
 
     }
 

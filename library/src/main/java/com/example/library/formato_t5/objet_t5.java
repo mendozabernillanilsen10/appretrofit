@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 public class objet_t5 {
-    private List<Map<String, Object>> dynamicList;
+    private Map<String, Object> dynamicList;
 
-    public List<Map<String, Object>> getDynamicList() {
+
+    public Map<String, Object> getDynamicList() {
         return dynamicList;
     }
-    public void setDynamicList(List<Map<String, Object>> dynamicList) {
+
+    public void setDynamicList(Map<String, Object> dynamicList) {
         this.dynamicList = dynamicList;
     }
-
 }
