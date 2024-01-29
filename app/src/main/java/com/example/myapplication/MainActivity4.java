@@ -1,20 +1,24 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.library.format.DataItem;
-import com.example.library.format.Download_format2;
+
 import com.example.library.formato_t1.data_t1;
 import com.example.library.formato_t1.objet_t1;
+import com.example.library.formato_t5.objet_t5;
 import com.example.myapplication.Cliente.conn;
 import com.example.myapplication.Service.Service;
+import com.example.myapplication.adapter.TrabajadorAdapter;
 
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -25,6 +29,9 @@ public class MainActivity4 extends AppCompatActivity {
 
     TextView    textView;
     Button button;
+
+    private RecyclerView.Adapter adapterPopular;
+    private RecyclerView recyclerViewPopular;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,7 +48,11 @@ public class MainActivity4 extends AppCompatActivity {
     }
 
 
-    private void proceso() {
+
+
+    // proceso para obtener datos de la api formato numero 1
+
+    private void proceso1() {
 
         Service ser = conn.Mediador();
         Call<Map<String, Object>> call = ser.optner_lista_one();
@@ -75,10 +86,40 @@ public class MainActivity4 extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
+    // proceso para obtener datos de la api formato numero 5
+
+    private void proceso() {
+
+        recyclerViewPopular = findViewById(R.id.view1);
+        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        Service ser = conn.Mediador5();
+        Call<List<Map<String, Object>>> call = ser.optner_lista_two();
+        call.enqueue(new Callback<List<Map<String, Object>>>() {
+            @Override
+            public void onResponse(Call<List<Map<String, Object>>> call, Response<List<Map<String, Object>>> response) {
+                if (response.isSuccessful()) {
+                    List<Map<String, Object>> dynamicList = response.body();
+
+                    objet_t5 obj = new objet_t5();
+                    obj.setDynamicList(dynamicList);
+                    adapterPopular = new TrabajadorAdapter(dynamicList);
+                    recyclerViewPopular.setAdapter(adapterPopular);
+
+                } else {
+                    // Manejar error
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Map<String, Object>>> call, Throwable t) {
+
+            }
+        });
+
+    }
 
 }

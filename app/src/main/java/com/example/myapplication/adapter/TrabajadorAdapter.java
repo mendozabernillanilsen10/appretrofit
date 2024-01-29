@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.Trabajador;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TrabajadorAdapter extends RecyclerView.Adapter<TrabajadorAdapter.ViewHolder>{
 
-    public TrabajadorAdapter(ArrayList<Trabajador> items) {
+    public TrabajadorAdapter(List<Map<String, Object>> items) {
         this.items = items;
     }
 
-    ArrayList<Trabajador> items;
+    List<Map<String, Object>> items;
 
     @NonNull
     @Override
@@ -31,9 +31,7 @@ public class TrabajadorAdapter extends RecyclerView.Adapter<TrabajadorAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-
-
-        holder.titleTxt.setText( "#"+ position +" " +items.get(position).getNombresall());
+        holder.titleTxt.setText( "#"+ position +" " +items.get(position).get("detalle"));
 
     }
 
