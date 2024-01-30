@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.example.library.formato_t1.data_t1;
 import com.example.library.formato_t1.objet_t1;
-import com.example.library.formato_t5.objet_t5;
+import com.example.library.formato_t3.objet_t3;
+import com.example.library.formato_t4.objet_t4;
 import com.example.myapplication.Cliente.conn;
 import com.example.myapplication.Service.Service;
 import com.example.myapplication.adapter.TrabajadorAdapter;
@@ -47,12 +48,42 @@ public class MainActivity4 extends AppCompatActivity {
 
     }
 
+    private void proceso_3() {
 
+        recyclerViewPopular = findViewById(R.id.view1);
+        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        Service ser = conn.Mediador5();
+        Call<Map<String, Object>> call = ser.optner_lista_three();
+
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful()) {
+
+                    Map<String, Object> dataList = response.body();
+                    //List<Map<String, Object>> data = (List<Map<String, Object>>) dataList.get("header");
+                    objet_t3 obj = new objet_t3();
+                    obj.setHeader((List<Map<String, Object>>) dataList.get("header"));
+                    obj.setContent((List<Map<String, Object>>) dataList.get("content"));
+                    textView.setText(obj.getContent().toString());
+                    // Acceder a los datos según sea necesario
+
+                } else {
+                    // Manejar error
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
+            }
+        });
+    }
 
 
     // proceso para obtener datos de la api formato numero 1
 
-    private void proceso1() {
+    private void proceso1()  {
 
         Service ser = conn.Mediador();
         Call<Map<String, Object>> call = ser.optner_lista_one();
@@ -91,7 +122,7 @@ public class MainActivity4 extends AppCompatActivity {
 
     // proceso para obtener datos de la api formato numero 5
 
-    private void proceso() {
+    private void proceso_04() {
 
         recyclerViewPopular = findViewById(R.id.view1);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -107,9 +138,11 @@ public class MainActivity4 extends AppCompatActivity {
                     Map<String, Object> dataList = dynamicList.get(10000);
                     textView.setText(dataList.toString());
 
-                    adapterPopular = new TrabajadorAdapter(dynamicList);
-                    recyclerViewPopular.setAdapter(adapterPopular);
+                    objet_t4 obj = new objet_t4();
+                    obj.setDynamicList(dynamicList);
 
+                    adapterPopular = new TrabajadorAdapter(obj.getDynamicList());
+                    recyclerViewPopular.setAdapter(adapterPopular);
                 } else {
                     // Manejar error
                 }
