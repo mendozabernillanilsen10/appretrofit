@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.example.library.formato_t1.data_t1;
 import com.example.library.formato_t1.objet_t1;
-import com.example.library.formato_t3.objet_t3;
+import com.example.library.formato_t2.data_format;
+import com.example.library.formato_t3.body;
 import com.example.library.formato_t4.objet_t4;
 import com.example.myapplication.Cliente.conn;
 import com.example.myapplication.Service.Service;
@@ -42,7 +43,7 @@ public class MainActivity4 extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
-            proceso_04();
+            proceso2();
         });
 
 
@@ -88,6 +89,53 @@ public class MainActivity4 extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void proceso2() {
+
+        Service ser = conn.Mediador2();
+        Call<Map<String, Object>> call = ser.optner_lista_two();
+
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful()) {
+
+
+
+                    Map<String, Object> responsse = response.body();
+
+
+
+
+                } else {
+                    // Handle error
+                }
+
+            }
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     private void procesotres() {
 
         recyclerViewPopular = findViewById(R.id.view1);
@@ -102,7 +150,7 @@ public class MainActivity4 extends AppCompatActivity {
 
                     Map<String, Object> dataList = response.body();
                     //List<Map<String, Object>> data = (List<Map<String, Object>>) dataList.get("header");
-                    objet_t3 obj = new objet_t3();
+                    body obj = new body();
                     obj.setHeader((List<Map<String, Object>>) dataList.get("header"));
                     obj.setContent((List<Map<String, Object>>) dataList.get("content"));
                     textView.setText(obj.getContent().toString());
@@ -119,12 +167,6 @@ public class MainActivity4 extends AppCompatActivity {
             }
         });
     }
-
-
-    // proceso para obtener datos de la api formato numero 1
-
-
-    // proceso para obtener datos de la api formato numero 5
 
     private void proceso_04() {
 

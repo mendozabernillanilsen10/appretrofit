@@ -9,8 +9,8 @@ import retrofit2.http.GET;
 public interface Service {
     @GET("GetHarvestGroup.php?iddatabase=AGVTEAM_TEST&iddatabase2=AGROVISIONCORP")
     Call<Map<String, Object>> optner_lista_one();
-
-
+    @GET("api/v1/gmoprod/materia-prima/list/?idDatabase=AGROVISIONCORP&idEmpresa=001&server=QA")
+    Call<Map<String, Object>>  optner_lista_two();
 
     @GET("GetQuerygg.php?iddatabase=AGVTEAM_TEST&query=exec MobileGetListParamMateriaPrima 'AGROVISIONCORP', '001',1;")
     Call<Map<String, Object>> optner_lista_three();

@@ -8,6 +8,7 @@ public class data_t1 {
     public List<Map<String, Object>> getDynamicList() {
         return dynamicList;
     }
+
     public void setDynamicList(List<Map<String, Object>> dynamicList) {
         this.dynamicList = dynamicList;
     }
