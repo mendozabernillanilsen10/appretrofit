@@ -8,8 +8,8 @@ import retrofit2.http.PUT;
 public class conn {
     public static final String URL_001= "http://34.194.71.145/dashboardQA/agv/gmotareo/get/agv2023/";
 
-    public static  final  String URL_003= "http://http://34.194.71.145/dashboardQA/agv/gmotareo/get/";
-    public static final String URL_004= "http://52.3.85.45/dashboard/agv/gmotareo/get/";
+    public static  final  String URL_003= "http://34.194.71.145/dashboardQA/agv/gmotareo/get/";
+    public static final String URL_004 = "http://52.3.85.45/dashboard/agv/gmotareo/get/";
 
 
 

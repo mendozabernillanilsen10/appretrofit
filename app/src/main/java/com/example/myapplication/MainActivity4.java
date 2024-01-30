@@ -42,46 +42,11 @@ public class MainActivity4 extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
-            proceso()  ;
+            proceso_04();
         });
 
 
     }
-
-    private void proceso_3() {
-
-        recyclerViewPopular = findViewById(R.id.view1);
-        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        Service ser = conn.Mediador5();
-        Call<Map<String, Object>> call = ser.optner_lista_three();
-
-        call.enqueue(new Callback<Map<String, Object>>() {
-            @Override
-            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                if (response.isSuccessful()) {
-
-                    Map<String, Object> dataList = response.body();
-                    //List<Map<String, Object>> data = (List<Map<String, Object>>) dataList.get("header");
-                    objet_t3 obj = new objet_t3();
-                    obj.setHeader((List<Map<String, Object>>) dataList.get("header"));
-                    obj.setContent((List<Map<String, Object>>) dataList.get("content"));
-                    textView.setText(obj.getContent().toString());
-                    // Acceder a los datos según sea necesario
-
-                } else {
-                    // Manejar error
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-    // proceso para obtener datos de la api formato numero 1
 
     private void proceso1()  {
 
@@ -120,6 +85,45 @@ public class MainActivity4 extends AppCompatActivity {
     }
 
 
+
+
+
+    private void procesotres() {
+
+        recyclerViewPopular = findViewById(R.id.view1);
+        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        Service ser = conn.Mediador3();
+        Call<Map<String, Object>> call = ser.optner_lista_three();
+
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful()) {
+
+                    Map<String, Object> dataList = response.body();
+                    //List<Map<String, Object>> data = (List<Map<String, Object>>) dataList.get("header");
+                    objet_t3 obj = new objet_t3();
+                    obj.setHeader((List<Map<String, Object>>) dataList.get("header"));
+                    obj.setContent((List<Map<String, Object>>) dataList.get("content"));
+                    textView.setText(obj.getContent().toString());
+                    // Acceder a los datos según sea necesario
+
+                } else {
+                    // Manejar error
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    // proceso para obtener datos de la api formato numero 1
+
+
     // proceso para obtener datos de la api formato numero 5
 
     private void proceso_04() {
@@ -128,7 +132,7 @@ public class MainActivity4 extends AppCompatActivity {
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         Service ser = conn.Mediador5();
-        Call<List<Map<String, Object>>> call = ser.optner_lista_two();
+        Call<List<Map<String, Object>>> call = ser.optner_lista_cuatro();
         call.enqueue(new Callback<List<Map<String, Object>>>() {
             @Override
             public void onResponse(Call<List<Map<String, Object>>> call, Response<List<Map<String, Object>>> response) {
