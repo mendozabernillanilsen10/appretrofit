@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class data_format {
+public class data_format_2 {
     private Map<String, Object> response;
 
     public Map<String, Object> getResponse() {
         return response;
     }
+
     public List<Map<String, Object>> listbody() {
         List<Map<String, Object>> result = new ArrayList<>();
 
@@ -23,13 +24,8 @@ public class data_format {
         }
         return result;
     }
-
-
-
-
-    public Map<String, Object> objetbody(String targetKey) {
+    public Map<String, Object> body(String targetKey) {
         Map<String, Object> result = new HashMap<>();
-
         if (response != null && response.containsKey("data")) {
             Object dataObject = response.get("data");
 
@@ -43,36 +39,42 @@ public class data_format {
                 }
             }
         }
-
         return result;
     }
-
-    public Map<String,Object> header(String targetKey){
-        Map<String, Object> result = new HashMap<>();
-
-        if (response != null && response.containsKey("data")) {
-            Object dataObject = response.get("data");
-
-            if (dataObject instanceof List) {
-                List<Map<String, Object>> dataArray = (List<Map<String, Object>>) dataObject;
-
-                for (Map<String, Object> data : dataArray) {
-                    if (data.containsKey(targetKey)) {
-                        List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("header");
-
-                        if (content != null) {
-                            result = content.isEmpty() ? new HashMap<>() : content.get(0);
-                        }
+    public List<Map<String, Object>> headerlist(String targetKey) {
+        List<Map<String, Object>> headers = new ArrayList<>();
+        Object dataObject = response.get("data");
+        if (dataObject instanceof List) {
+            List<Map<String, Object>> dataArray = (List<Map<String, Object>>) dataObject;
+            for (Map<String, Object> data : dataArray) {
+                if (data.containsKey(targetKey)) {
+                    Map<String, Object> formatocosecha = (Map<String, Object>) data.get(targetKey);
+                    if (formatocosecha.containsKey("header")) {
+                        Map<String, Object> header = (Map<String, Object>) formatocosecha.get("header");
+                        headers.add(header);
                     }
                 }
             }
         }
-
-        return result;
+        return headers;
     }
-
-
-
+    public List<Map<String, Object>> contentlist(String targetKey) {
+        List<Map<String, Object>> content = new ArrayList<>();
+        Object dataObject = response.get("data");
+        if (dataObject instanceof List) {
+            List<Map<String, Object>> dataArray = (List<Map<String, Object>>) dataObject;
+            for (Map<String, Object> data : dataArray) {
+                if (data.containsKey(targetKey)) {
+                    Map<String, Object> formatocosecha = (Map<String, Object>) data.get(targetKey);
+                    if (formatocosecha.containsKey("data")) {
+                        List<Map<String, Object>> contentList = (List<Map<String, Object>>) formatocosecha.get("data");
+                        content.addAll(contentList);
+                    }
+                }
+            }
+        }
+        return content;
+    }
 
     public void setResponse(Map<String, Object> response) {
         this.response = response;
@@ -96,4 +98,5 @@ public class data_format {
     public  String function_name() {
         return response != null && response.containsKey("function_name") ? (String) response.get("function_name") : "";
     }
+
 }

@@ -14,23 +14,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
+    private static final String TABLE_NAME = "usuarios";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE usuarios (" +
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
+                "iddatabase TEXT," +
                 "idempresa TEXT," +
-                "idtrabajador TEXT," +
-                "nombresall TEXT," +
-                "habilitado INTEGER," +
-                "cnrodocumento TEXT UNIQUE," +
-                "idplanilla TEXT," +
-                "listanegra TEXT," +
-                "liquidado TEXT," +
-                "fecha_ingreso TEXT," +
-                "fecha_cese TEXT," +
-                "fecha_liquidado TEXT" +
+                "idcosechalabor TEXT," +
+                "descripcion TEXT," +
+                "descripcion_corta TEXT," +
+                "idcultivo TEXT," +
+                "idactividad TEXT," +
+                "idlabor TEXT," +
+                "esrendimiento INTEGER," +
+                "meta TEXT," +
+                "costo TEXT," +
+                "observaciones TEXT," +
+                "activo INTEGER," +
+                "fechacreacion TEXT" +
                 ")");
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

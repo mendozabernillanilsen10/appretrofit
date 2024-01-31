@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-import com.example.library.formato_t1.data_t1;
-import com.example.library.formato_t1.objet_t1;
-import com.example.library.formato_t2.data_format;
-import com.example.library.formato_t3.body;
-import com.example.library.formato_t4.objet_t4;
+import com.example.library.formato_t1.data_format_1;
+import com.example.library.formato_t2.data_format_2;
+import com.example.library.formato_t3.data_format_3;
+import com.example.library.formato_t4.data_format_4;
 import com.example.myapplication.Cliente.conn;
 import com.example.myapplication.Service.Service;
 import com.example.myapplication.adapter.TrabajadorAdapter;
@@ -43,7 +42,7 @@ public class MainActivity4 extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
-            proceso2();
+            proceso_04();
         });
 
 
@@ -58,21 +57,10 @@ public class MainActivity4 extends AppCompatActivity {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful()) {
-
-
-                    Map<String, Object> dataList = response.body();
-                    boolean idempresa = (boolean) dataList.get("status");
-                    Map<String, data_t1> data = (Map<String, data_t1>) dataList.get("data");
-                    objet_t1 obj = new objet_t1();
-                    obj.setStatus(idempresa);
-                    obj.setData(data);
-
-                    textView.setText(obj.isStatus() + " "  +obj.getData().toString());
-
-                    // Acceder a los datos según sea necesario
-
+                    data_format_1 obj = new data_format_1();
+                    obj.setResponse(response.body());
+                    textView.setText( obj.getBody().toString());
                 } else {
-                    // Manejar error
                 }
             }
 
@@ -84,23 +72,6 @@ public class MainActivity4 extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -115,18 +86,20 @@ public class MainActivity4 extends AppCompatActivity {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful()) {
-
-
-
-                    Map<String, Object> responsse = response.body();
-
-
-
-
+                    data_format_2 obj = new data_format_2();
+                    obj.setResponse(response.body());
+                    //listar el contenido de la lista
+                    List<Map<String, Object>> listss = obj.listbody();
+                    // Acceder a los datos según sea necesario
+                    Map<String, Object> content = obj.body("unidadavance");
+                    // HEADER
+                    List<Map<String, Object>> header = obj.headerlist("formatocosecha");
+                    //DATA
+                    List<Map<String, Object>> data = obj.contentlist("formatocosecha");
+                    textView.setText(data.toString());
                 } else {
-                    // Handle error
-                }
 
+                }
             }
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
@@ -136,7 +109,7 @@ public class MainActivity4 extends AppCompatActivity {
     }
 
 
-    private void procesotres() {
+    private void proceso3() {
 
         recyclerViewPopular = findViewById(R.id.view1);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -147,15 +120,9 @@ public class MainActivity4 extends AppCompatActivity {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful()) {
-
-                    Map<String, Object> dataList = response.body();
-                    //List<Map<String, Object>> data = (List<Map<String, Object>>) dataList.get("header");
-                    body obj = new body();
-                    obj.setHeader((List<Map<String, Object>>) dataList.get("header"));
-                    obj.setContent((List<Map<String, Object>>) dataList.get("content"));
+                    data_format_3 obj = new data_format_3();
+                    obj.setBody(response.body());
                     textView.setText(obj.getContent().toString());
-                    // Acceder a los datos según sea necesario
-
                 } else {
                     // Manejar error
                 }
@@ -179,21 +146,15 @@ public class MainActivity4 extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Map<String, Object>>> call, Response<List<Map<String, Object>>> response) {
                 if (response.isSuccessful()) {
-                    List<Map<String, Object>> dynamicList = response.body();
 
-                    Map<String, Object> dataList = dynamicList.get(10000);
-                    textView.setText(dataList.toString());
-
-                    objet_t4 obj = new objet_t4();
-                    obj.setDynamicList(dynamicList);
-
-                    adapterPopular = new TrabajadorAdapter(obj.getDynamicList());
+                    data_format_4 obj = new data_format_4();
+                    obj.setBody(response.body());
+                    adapterPopular = new TrabajadorAdapter(obj.getBody());
                     recyclerViewPopular.setAdapter(adapterPopular);
                 } else {
                     // Manejar error
                 }
             }
-
             @Override
             public void onFailure(Call<List<Map<String, Object>>> call, Throwable t) {
 
