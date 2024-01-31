@@ -14,7 +14,7 @@ import com.example.library.formato_t1.data_format_1;
 import com.example.library.formato_t2.data_format_2;
 import com.example.library.formato_t3.data_format_3;
 import com.example.library.formato_t4.data_format_4;
-import com.example.myapplication.Cliente.conn;
+import com.example.myapplication.Cliente.Url;
 import com.example.myapplication.Service.Service;
 import com.example.myapplication.adapter.TrabajadorAdapter;
 
@@ -50,7 +50,7 @@ public class MainActivity4 extends AppCompatActivity {
 
     private void proceso1()  {
 
-        Service ser = conn.Mediador();
+        Service ser = Url.Mediador();
         Call<Map<String, Object>> call = ser.optner_lista_one();
 
         call.enqueue(new Callback<Map<String, Object>>() {
@@ -79,7 +79,7 @@ public class MainActivity4 extends AppCompatActivity {
 
     private void proceso2() {
 
-        Service ser = conn.Mediador2();
+        Service ser = Url.Mediador2();
         Call<Map<String, Object>> call = ser.optner_lista_two();
 
         call.enqueue(new Callback<Map<String, Object>>() {
@@ -113,7 +113,7 @@ public class MainActivity4 extends AppCompatActivity {
 
         recyclerViewPopular = findViewById(R.id.view1);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        Service ser = conn.Mediador3();
+        Service ser = Url.Mediador3();
         Call<Map<String, Object>> call = ser.optner_lista_three();
 
         call.enqueue(new Callback<Map<String, Object>>() {
@@ -140,7 +140,7 @@ public class MainActivity4 extends AppCompatActivity {
         recyclerViewPopular = findViewById(R.id.view1);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        Service ser = conn.Mediador5();
+        Service ser = Url.Mediador5();
         Call<List<Map<String, Object>>> call = ser.optner_lista_cuatro();
         call.enqueue(new Callback<List<Map<String, Object>>>() {
             @Override

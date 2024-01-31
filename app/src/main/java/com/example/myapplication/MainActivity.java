@@ -13,11 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.library.formato_t4.data_format_4;
-import com.example.myapplication.Cliente.conn;
+import com.example.myapplication.Cliente.Url;
 import com.example.myapplication.Service.Service;
-import com.example.myapplication.adapter.TrabajadorAdapter;
 import com.example.myapplication.db.DatabaseHelper;
-import com.example.myapplication.model.Trabajador;
 
 import java.util.List;
 import java.util.Map;
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected data_format_4 doInBackground(Void... voids) {
-            Service ser = conn.Mediador5();
+            Service ser = Url.Mediador5();
 
             Call<List<Map<String, Object>>> call = ser.optner_lista_cuatro();
             try {
