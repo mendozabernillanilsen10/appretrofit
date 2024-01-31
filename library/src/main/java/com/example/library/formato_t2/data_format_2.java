@@ -98,5 +98,4 @@ public class data_format_2 {
     public  String function_name() {
         return response != null && response.containsKey("function_name") ? (String) response.get("function_name") : "";
     }
-
 }

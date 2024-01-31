@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(data_format_4 dataFormat4) {
             super.onPostExecute(dataFormat4);
-
             loadingDialog.cancel();
             if (dataFormat4 != null) {
                 saveTrabajadores(dataFormat4);
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }
         private void saveTrabajadores(data_format_4 dataFormat4) {
             List<Map<String, Object>> trabajadores = dataFormat4.getBody();
-            DatabaseHelper dataSource = new DatabaseHelper(MainActivity.this, "SISSS", null, 1);
+            DatabaseHelper dataSource = new DatabaseHelper(MainActivity.this, "bd_final", null, 1);
             SQLiteDatabase database = dataSource.getWritableDatabase();
             database.beginTransaction();
             try {
@@ -106,19 +105,10 @@ public class MainActivity extends AppCompatActivity {
                     ContentValues values = new ContentValues();
                     values.put("iddatabase", (String) trabajadorMap.get("iddatabase"));
                     values.put("idempresa", (String) trabajadorMap.get("idempresa"));
-                    values.put("idcosechalabor", (String) trabajadorMap.get("idcosechalabor"));
-                    values.put("descripcion", (String) trabajadorMap.get("descripcion"));
-                    values.put("descripcion_corta", (String) trabajadorMap.get("descripcion_corta"));
-                    values.put("idcultivo", (String) trabajadorMap.get("idcultivo"));
-                    values.put("idactividad", (String) trabajadorMap.get("idactividad"));
-                    values.put("idlabor", (String) trabajadorMap.get("idlabor"));
-                    values.put("esrendimiento", (Integer) trabajadorMap.get("esrendimiento"));
-                    values.put("meta", (String) trabajadorMap.get("meta"));
-                    values.put("costo", (String) trabajadorMap.get("costo"));
-                    values.put("observaciones", (String) trabajadorMap.get("observaciones"));
-                    values.put("activo", (Integer) trabajadorMap.get("activo"));
-                    values.put("fechacreacion", (String) trabajadorMap.get("fechacreacion"));
-                    database.insert("usuarios", null, values);
+                    values.put("idtrabajador", (String) trabajadorMap.get("idtrabajador"));
+                    values.put("detalle", (String) trabajadorMap.get("detalle"));
+                    values.put("nombres", (String) trabajadorMap.get("nombres"));
+                    database.insert("api05", null, values);
 
                 }
 

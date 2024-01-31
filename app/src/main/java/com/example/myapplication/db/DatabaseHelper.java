@@ -15,9 +15,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
     private static final String TABLE_NAME = "usuarios";
+    private static final String api05 = "api05";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
                 "iddatabase TEXT," +
                 "idempresa TEXT," +
@@ -33,6 +35,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "observaciones TEXT," +
                 "activo INTEGER," +
                 "fechacreacion TEXT" +
+                ")");
+
+        db.execSQL("CREATE TABLE "+api05 +"(" +
+                "iddatabase TEXT," +
+                "idempresa TEXT," +
+                "idtrabajador TEXT," +
+                "detalle TEXT," +
+                "nombres TEXT" +
                 ")");
     }
 
