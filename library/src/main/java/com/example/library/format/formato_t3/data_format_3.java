@@ -1,4 +1,4 @@
-package com.example.library.formato_t3;
+package com.example.library.format.formato_t3;
 
 import java.io.Serializable;
 import java.util.List;

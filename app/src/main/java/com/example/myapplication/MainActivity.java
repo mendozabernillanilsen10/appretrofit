@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,26 +13,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.library.formato_t4.data_format_4;
+import com.example.library.format.formato_t4.data_format_4;
 import com.example.myapplication.Cliente.Url;
 import com.example.myapplication.Service.Service;
-import com.example.myapplication.db.DatabaseHelper;
+import com.example.myapplication.db.SQLite;
+import com.example.myapplication.db.SQLiteHelper;
 
 import java.util.List;
 import java.util.Map;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements data_format_4.DataSaveCallback {
     private TextView textView;
-    private Button button;
-    private RecyclerView.Adapter adapterPopular;
-    private RecyclerView recyclerViewPopular;
+
     private Button filledTonalButton;
-    private SweetAlertDialog loadingDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -43,30 +40,32 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
 
     private void initView() {
         textView = findViewById(R.id.textView);
-        button = findViewById(R.id.button);
         filledTonalButton = findViewById(R.id.filledTonalButton);
-        recyclerViewPopular = findViewById(R.id.view1);
-        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
+        SQLite sqlite = new SQLite(this);
+        sqlite.abrir();
+
+
+        SQLiteHelper sqliteHelper = new SQLiteHelper(this);
+        textView.setText("Número de tablas: " + sqliteHelper.getTableNames());
+        sqlite.cerrar();
 
         filledTonalButton.setOnClickListener(v -> {
-            new DownloadAndSaveTask().execute();
+           // new DownloadAndSaveTask().execute();
         });
     }
 
     @Override
     public void onDataSaveComplete(String message) {
-        loadingDialog.cancel();
         textView.setText(message);
     }
 
     @Override
     public void onDataSaveError(Exception e) {
-        loadingDialog.cancel();
         Toast.makeText(MainActivity.this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-
+    /*
     private class DownloadAndSaveTask extends AsyncTask<Void, Void, data_format_4> {
         private long startTime;
         private data_format_4 dataFormat4;
@@ -76,10 +75,6 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-            loadingDialog.setCancelable(false);
-            loadingDialog.setTitleText("| Descargando...");
-            loadingDialog.show();
             startTime = System.currentTimeMillis();
         }
 
@@ -114,7 +109,12 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
             SQLiteDatabase database = dataSource.getWritableDatabase();
             dataFormat4.guardarRegistros(database, startTime, MainActivity.this);
         }
+
+
     }
+
+
+    */
 }
 
 
