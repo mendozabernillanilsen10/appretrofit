@@ -1,27 +1,23 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.example.library.database.JSQLite;
-import com.example.library.format.formato_t4.data_format_4;
-
-import com.example.library.jother.jdir;
-import com.example.myapplication.db.SQLite;
-import com.example.myapplication.db.SQLiteHelper;
-import com.example.myapplication.utils.others.files;
+import com.example.library.format.body.FormatMain;
+import com.example.library.format.model.ULR;
+import com.example.myapplication.url.ListaUrl;
 
 
-public class MainActivity extends AppCompatActivity implements data_format_4.DataSaveCallback {
+import java.util.List;
+
+
+public class MainActivity extends AppCompatActivity  {
     private TextView textView;
 
     private Button filledTonalButton;
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
         textView = findViewById(R.id.textView);
         filledTonalButton = findViewById(R.id.filledTonalButton);
 
+        /*
         SQLite sqlite = new SQLite(this);
         sqlite.abrir();
 
@@ -47,20 +44,18 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
         textView.setText("Número de tablas: " + jSQLite.getTableCount());
         sqlite.cerrar();
 
-        filledTonalButton.setOnClickListener(v -> {
-           // new DownloadAndSaveTask().execute();
-        });
+
+        */
+
+        List<ULR> listaUrl = new ListaUrl().getListaUrl();
+        FormatMain v1 = new FormatMain();
+        v1.setListaUrl(listaUrl);
+
+
+        textView.setText(v1.toString());
     }
 
-    @Override
-    public void onDataSaveComplete(String message) {
-        textView.setText(message);
-    }
 
-    @Override
-    public void onDataSaveError(Exception e) {
-        Toast.makeText(MainActivity.this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 
     /*
     private class DownloadAndSaveTask extends AsyncTask<Void, Void, data_format_4> {
