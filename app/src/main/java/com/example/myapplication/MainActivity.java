@@ -1,7 +1,6 @@
 package com.example.myapplication;
+
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,11 +9,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.library.formato_t4.data_format_4;
 import com.example.myapplication.Cliente.Url;
 import com.example.myapplication.Service.Service;
+import com.example.myapplication.adapter.TrabajadorAdapter;
 import com.example.myapplication.db.DatabaseHelper;
 
 import java.util.List;
@@ -22,13 +23,15 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
-    private Button filledTonalButton;
-    private TextView textView10;
-    private Button  segundaPantalla;
+public class MainActivity extends AppCompatActivity implements data_format_4.DataSaveCallback {
+    private TextView textView;
+    private Button button;
+    private RecyclerView.Adapter adapterPopular;
     private RecyclerView recyclerViewPopular;
+    private Button filledTonalButton;
     private SweetAlertDialog loadingDialog;
 
     @SuppressLint("MissingInflatedId")
@@ -36,13 +39,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView10 = findViewById(R.id.textView10);
-        filledTonalButton = findViewById(R.id.filledTonalButton);
-        segundaPantalla = findViewById(R.id.segundaPantalla);
+        initView();
+    }
 
-        segundaPantalla.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MainActivity4.class);
-            startActivity(intent);
+    private void initView() {
+        textView = findViewById(R.id.textView);
+        button = findViewById(R.id.button);
+        filledTonalButton = findViewById(R.id.filledTonalButton);
+        recyclerViewPopular = findViewById(R.id.view1);
+        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        button.setOnClickListener(v -> {
+            lectura_Api_04();
         });
 
         filledTonalButton.setOnClickListener(v -> {
@@ -50,11 +58,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onDataSaveComplete(String message) {
+        loadingDialog.cancel();
+        textView.setText(message);
+    }
+
+    @Override
+    public void onDataSaveError(Exception e) {
+        loadingDialog.cancel();
+        Toast.makeText(MainActivity.this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
 
     private class DownloadAndSaveTask extends AsyncTask<Void, Void, data_format_4> {
         private long startTime;
-        private long downloadTime;
+        private data_format_4 dataFormat4;
+        private SQLiteDatabase database;
+        private String tableName;
 
         @Override
         protected void onPreExecute() {
@@ -85,134 +106,43 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(data_format_4 dataFormat4) {
             super.onPostExecute(dataFormat4);
-            loadingDialog.cancel();
             if (dataFormat4 != null) {
-                saveTrabajadores(dataFormat4);
+                guardarRegistros(dataFormat4);
             } else {
-                // Manejo de errores en la respuesta no exitosa
                 Toast.makeText(MainActivity.this, "Error en la descarga", Toast.LENGTH_SHORT).show();
             }
         }
-        private void saveTrabajadores(data_format_4 dataFormat4) {
-            List<Map<String, Object>> trabajadores = dataFormat4.getBody();
-            DatabaseHelper dataSource = new DatabaseHelper(MainActivity.this, "bd_final", null, 1);
+
+        private void guardarRegistros(data_format_4 dataFormat4) {
+            DatabaseHelper dataSource = new DatabaseHelper(MainActivity.this, "bd_prueba8", null, 1);
             SQLiteDatabase database = dataSource.getWritableDatabase();
-            database.beginTransaction();
-            try {
-                for (Map<String, Object> trabajadorMap : trabajadores) {
-                    ContentValues values = new ContentValues();
-                    values.put("iddatabase", (String) trabajadorMap.get("iddatabase"));
-                    values.put("idempresa", (String) trabajadorMap.get("idempresa"));
-                    values.put("idtrabajador", (String) trabajadorMap.get("idtrabajador"));
-                    values.put("detalle", (String) trabajadorMap.get("detalle"));
-                    values.put("nombres", (String) trabajadorMap.get("nombres"));
-                    database.insert("api05", null, values);
-
-                }
-
-                database.setTransactionSuccessful();
-                long insertEndTime = System.currentTimeMillis();
-                long insertTime = insertEndTime - startTime;
-
-                long insertTimeInSeconds = insertTime / 1000;
-                long totalTimeInSeconds = (downloadTime + insertTime) / 1000;
-                // Convertir tiempos a minutos
-                long insertTimeInMinutes = insertTimeInSeconds / 60;
-                long totalTimeInMinutes = totalTimeInSeconds / 60;
-
-                textView10.setText("Descarga: " + downloadTime + "ms, " +
-                        "Inserción: " + insertTimeInSeconds + "s (" + insertTimeInMinutes + "min), " +
-                        "Total: " + totalTimeInSeconds + "s (" + totalTimeInMinutes + "min), " +
-                        "Se guardaron " + trabajadores.size() + " trabajadores");
-            } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            } finally {
-                database.endTransaction();
-            }
+            dataFormat4.guardarRegistros(database, startTime, MainActivity.this);
         }
     }
 
+    private void lectura_Api_04() {
 
-/*
+        recyclerViewPopular = findViewById(R.id.view1);
+        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-    private class dDownloadAndSaveTask extends AsyncTask<Void, Void, List<Trabajador>> {
-        private long startTime;
-        private long downloadTime;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loadingDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-            loadingDialog.setCancelable(false);
-            loadingDialog.setTitleText("| Descargando...");
-            loadingDialog.show();
-            startTime = System.currentTimeMillis();
-        }
-        @Override
-        protected List<Trabajador> doInBackground(Void... voids) {
-            Service ser = conn.Mediador();
-
-            Call<optner_lista_one> call = ser.optner_lista_one();
-
-
-            try {
-                Response<List<Trabajador>> response = call.execute();
-
-
-
+        Service ser = Url.Mediador5();
+        Call<List<Map<String, Object>>> call = ser.optner_lista_cuatro();
+        call.enqueue(new Callback<List<Map<String, Object>>>() {
+            @Override
+            public void onResponse(Call<List<Map<String, Object>>> call, Response<List<Map<String, Object>>> response) {
                 if (response.isSuccessful()) {
-                    return response.body();
+
+                    data_format_4 obj = new data_format_4();
+                    obj.setBody(response.body());
+                    adapterPopular = new TrabajadorAdapter(obj.getBody());
+                    recyclerViewPopular.setAdapter(adapterPopular);
+                } else {
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(List<Trabajador> trabajadores) {
-            super.onPostExecute(trabajadores);
-
-            loadingDialog.cancel();
-            if (trabajadores != null) {
-                saveTrabajadores(trabajadores);
-            } else {
-                // Manejo de errores en la respuesta no exitosa
-                Toast.makeText(MainActivity.this, "Error en la descarga", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(Call<List<Map<String, Object>>> call, Throwable t) {
             }
+        });
 
-        }
-
-
-
-
-
-
-        private void saveTrabajadores(List<Trabajador> trabajadores) {
-            DatabaseHelper dataSource = new DatabaseHelper(MainActivity.this, "db_taaSSS", null, 1);
-            SQLiteDatabase database = dataSource.getWritableDatabase();
-            database.beginTransaction();
-            try {
-                for (Trabajador trabajador : trabajadores) {
-                    database.insert("usuarios", null, trabajador.toValues());
-                }
-                database.setTransactionSuccessful();
-                long insertEndTime = System.currentTimeMillis();
-                long insertTime = insertEndTime - startTime;
-
-                long insertTimeInSeconds = insertTime / 1000;
-                long totalTimeInSeconds = (downloadTime + insertTime) / 1000;
-                // Convertir tiempos a minutos
-                long insertTimeInMinutes = insertTimeInSeconds / 60;
-                long totalTimeInMinutes = totalTimeInSeconds / 60;
-
-                textView10.setText("Descarga: " + downloadTime + "ms, " +
-                        "Inserción: " + insertTimeInSeconds + "s (" + insertTimeInMinutes + "min), " +
-                        "Total: " + totalTimeInSeconds + "s (" + totalTimeInMinutes + "min), " +
-                        "Se guardaron " + trabajadores.size() + " trabajadores");
-            } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            } finally {
-                database.endTransaction();
-            }
-        }
-    }*/
+    }
 }
