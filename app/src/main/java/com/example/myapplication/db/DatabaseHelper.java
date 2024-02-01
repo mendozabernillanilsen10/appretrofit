@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.myapplication.model.Trabajador;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -53,10 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void saveTrabajador(Trabajador trabajador) {
-        SQLiteDatabase database = getWritableDatabase();
-        database.insert("usuarios", null, trabajador.toValues());
-        database.close();
-    }
+
 
 }

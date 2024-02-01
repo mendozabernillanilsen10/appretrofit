@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.library.formato_t4.data_format_4;
 import com.example.myapplication.Cliente.Url;
 import com.example.myapplication.Service.Service;
-import com.example.myapplication.adapter.TrabajadorAdapter;
 import com.example.myapplication.db.DatabaseHelper;
 
 import java.util.List;
@@ -49,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
         recyclerViewPopular = findViewById(R.id.view1);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        button.setOnClickListener(v -> {
-            lectura_Api_04();
-        });
 
         filledTonalButton.setOnClickListener(v -> {
             new DownloadAndSaveTask().execute();
@@ -119,30 +115,6 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
             dataFormat4.guardarRegistros(database, startTime, MainActivity.this);
         }
     }
-
-    private void lectura_Api_04() {
-
-        recyclerViewPopular = findViewById(R.id.view1);
-        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        Service ser = Url.Mediador5();
-        Call<List<Map<String, Object>>> call = ser.optner_lista_cuatro();
-        call.enqueue(new Callback<List<Map<String, Object>>>() {
-            @Override
-            public void onResponse(Call<List<Map<String, Object>>> call, Response<List<Map<String, Object>>> response) {
-                if (response.isSuccessful()) {
-
-                    data_format_4 obj = new data_format_4();
-                    obj.setBody(response.body());
-                    adapterPopular = new TrabajadorAdapter(obj.getBody());
-                    recyclerViewPopular.setAdapter(adapterPopular);
-                } else {
-                }
-            }
-            @Override
-            public void onFailure(Call<List<Map<String, Object>>> call, Throwable t) {
-            }
-        });
-
-    }
 }
+
+

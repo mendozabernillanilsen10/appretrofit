@@ -19,7 +19,6 @@ public class data_format_4 implements Serializable {
     public data_format_4() {
         // Constructor vacío
     }
-
     public void setBody(List<Map<String, Object>> body) {
         this.body = body;
     }
