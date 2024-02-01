@@ -10,20 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.example.library.database.JSQLite;
 import com.example.library.format.formato_t4.data_format_4;
-import com.example.myapplication.Cliente.Url;
-import com.example.myapplication.Service.Service;
+
+import com.example.library.jother.jdir;
 import com.example.myapplication.db.SQLite;
 import com.example.myapplication.db.SQLiteHelper;
+import com.example.myapplication.utils.others.files;
 
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements data_format_4.DataSaveCallback {
     private TextView textView;
@@ -38,16 +34,17 @@ public class MainActivity extends AppCompatActivity implements data_format_4.Dat
         initView();
     }
 
-    private void initView() {
+    private void initView( ) {
         textView = findViewById(R.id.textView);
         filledTonalButton = findViewById(R.id.filledTonalButton);
 
         SQLite sqlite = new SQLite(this);
         sqlite.abrir();
 
+        JSQLite jSQLite = new JSQLite(this, jdir.pathPrincipal((AppCompatActivity) this) + files.DIR_DB_FINAL, 206);
 
-        SQLiteHelper sqliteHelper = new SQLiteHelper(this);
-        textView.setText("Número de tablas: " + sqliteHelper.getTableNames());
+
+        textView.setText("Número de tablas: " + jSQLite.getTableCount());
         sqlite.cerrar();
 
         filledTonalButton.setOnClickListener(v -> {

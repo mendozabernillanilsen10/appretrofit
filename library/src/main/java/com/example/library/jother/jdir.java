@@ -42,6 +42,7 @@ public class jdir {
         } else {
             return activity.getExternalFilesDir(null).getPath() + "/";
         }
+
     }
 
     public static void dirSiNoExisteCrea(String path) {
