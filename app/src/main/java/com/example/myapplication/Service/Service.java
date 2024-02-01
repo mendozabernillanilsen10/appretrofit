@@ -16,4 +16,7 @@ public interface Service {
     @GET("GetQuery.php?iddatabase=AGROVISIONTEAM&query=exec GetListTrabTotal_mobile 'AGROVISIONCORP';")
     Call<List<Map<String, Object>>> optner_lista_cuatro();//
 
+
+
+
 }
