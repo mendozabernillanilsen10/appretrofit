@@ -143,6 +143,48 @@ public class JSQLite {
         }
     }
 
+    public String getTableNames() {
+        StringBuilder tableNamesBuilder = new StringBuilder();
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    do {
+                        // Retrieve table name from the cursor
+                        String tableName = cursor.getString(0);
+
+                        // Append the table name to the StringBuilder
+                        tableNamesBuilder.append(tableName).append(", ");
+                    } while (cursor.moveToNext());
+                }
+            } finally {
+                // Close the cursor to avoid resource leaks
+                cursor.close();
+            }
+        }
+
+
+        // Remove the trailing comma and space
+        int length = tableNamesBuilder.length();
+        if (length > 2) {
+            tableNamesBuilder.setLength(length - 2);
+        }
+
+        return tableNamesBuilder.toString();
+    }
+
+    public int getTableCount() {
+        int tableCount = 0;
+        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        if (cursor != null) {
+            tableCount = cursor.getCount();
+            cursor.close();
+        }
+        return tableCount;
+    }
     private String parseQuery(String consulta, boolean encripted, Object[] data) {
 
     return consulta;
