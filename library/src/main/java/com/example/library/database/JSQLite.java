@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class JSQLite {
     UrlQuerySanitizer jmethods;
@@ -28,6 +29,61 @@ public class JSQLite {
     public String fileLog;
     public Pref pref;
 
+    public UrlQuerySanitizer getJmethods() {
+        return jmethods;
+    }
+
+    public void setJmethods(UrlQuerySanitizer jmethods) {
+        this.jmethods = jmethods;
+    }
+
+    public Context getCONTEXT() {
+        return CONTEXT;
+    }
+
+    public void setCONTEXT(Context CONTEXT) {
+        this.CONTEXT = CONTEXT;
+    }
+
+    public JSQLiteHelper getSqliteHelper() {
+        return sqliteHelper;
+    }
+
+    public void setSqliteHelper(JSQLiteHelper sqliteHelper) {
+        this.sqliteHelper = sqliteHelper;
+    }
+
+    public SQLiteDatabase getDb() {
+        return db;
+    }
+
+    public void setDb(SQLiteDatabase db) {
+        this.db = db;
+    }
+
+    public String getFileLog() {
+        return fileLog;
+    }
+
+    public void setFileLog(String fileLog) {
+        this.fileLog = fileLog;
+    }
+
+    public Pref getPref() {
+        return pref;
+    }
+
+    public void setPref(Pref pref) {
+        this.pref = pref;
+    }
+
+    public String getInsertLogEstado() {
+        return insertLogEstado;
+    }
+
+    public void setInsertLogEstado(String insertLogEstado) {
+        this.insertLogEstado = insertLogEstado;
+    }
 
     public String insertLogEstado = "\"INSERT INTO logestado (iddatabase, idempresa, idreferencia, tablareferencia, valor_anterior, valor_nuevo, idusuario,observaciones) VALUES (?1, ?2, ?3, 'SINC_TRABAJADOR', ?4, ?5, ?6, ?7);";
 
@@ -86,14 +142,7 @@ public class JSQLite {
         return r;
     }
 
-    /**
-     * Calcular un Entero por medio de un Query con Parametros, y el factor de encriptacion
-     *
-     * @param consulta Consulta QUERY
-     * @param encript  Si los Parametros seran encriptados
-     * @param data     Parametros del Query
-     * @return
-     */
+
 
     public boolean isENCRIPT() {
         return ENCRIPT;
@@ -175,16 +224,19 @@ public class JSQLite {
         return tableNamesBuilder.toString();
     }
 
-    public int getTableCount() {
-        int tableCount = 0;
-        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-        if (cursor != null) {
-            tableCount = cursor.getCount();
-            cursor.close();
-        }
-        return tableCount;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     private String parseQuery(String consulta, boolean encripted, Object[] data) {
 
     return consulta;
@@ -197,6 +249,21 @@ public class JSQLite {
      //   jdialog.DialogSimple(CONTEXT, "Mensaje de Problema", problem);
       //  printFileLog(fileLog, problem);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public int insertarRegistro(String tabla, String[] cabeceras, String... values) {
@@ -218,5 +285,60 @@ public class JSQLite {
         ///imprimir("\ninsertarRegistro(String tabla, String[] cabeceras, String... values)\n" + "T = " + tabla + "\n" + "C = " + Arrays.toString(cabeceras) + "\n" + "V = " + Arrays.toString(values) + "\n" + "R = " + r + "\n \n");
         return r;
     }
+
+
+
+
+    public int insertarRegistro(String tabla, Map<String, Object> registro) {
+        int r = 0;
+
+        try {
+            db.beginTransaction();
+            ContentValues contentValues = new ContentValues();
+
+            for (Map.Entry<String, Object> entry : registro.entrySet()) {
+                String clave = entry.getKey();
+                Object valor = entry.getValue();
+
+                // Convierte el valor a String (puedes ajustar esta lógica según tus necesidades)
+                String valorString = String.valueOf(valor);
+
+                contentValues.put(clave, valorString);
+            }
+
+            r = Integer.parseInt(db.insert(tabla, null, contentValues) + "");
+            pref.setBool("generaltareo_existenMovimientos", false);
+            db.setTransactionSuccessful();
+        } catch (SQLiteException e) {
+            showException(e);
+        } finally {
+            db.endTransaction();
+        }
+
+        return r;
+    }
+
+
+
+
+
+ // wxite la tabal
+    public int getTableCount(String tableName) {
+        int tableCount = 0;
+        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
+
+        // Consulta para obtener el recuento de tablas con el nombre proporcionado
+        String query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=?";
+        Cursor cursor = db.rawQuery(query, new String[]{tableName});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                tableCount = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        return tableCount;
+    }
+
 
 }

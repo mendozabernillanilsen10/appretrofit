@@ -3,6 +3,7 @@ package com.example.library.format.body;
 
 import android.util.Log;
 
+import com.example.library.database.JSQLite;
 import com.example.library.format.formato_t1.data_format_1;
 import com.example.library.format.model.ULR;
 import com.example.library.format.retrofit.ConsumoRetrofit;
@@ -17,9 +18,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormatMain {
     private List<ULR> listaUrl;
+
+    JSQLite jSQLite;
+
+    public FormatMain(List<ULR> listaUrl, JSQLite jSQLite) {
+        this.listaUrl = listaUrl;
+        this.jSQLite = jSQLite;
+    }
+
     public List<ULR> getListaUrl() {
         return listaUrl;
     }
+
 
     public String proceso() {
         StringBuilder responseBuilder = new StringBuilder();
@@ -27,7 +37,10 @@ public class FormatMain {
         List<ULR> listaUrl = this.listaUrl;
 
         for (ULR url : listaUrl) {
+
             if (url.getTipoPetiocion() == 1) {
+                Log.d("---------------", url.getUrl());
+
                 String baseUrl = obtenerBaseUrl(url.getUrl());
                 String endpoint = obtenerEndpoint(url.getUrl());
                 Retrofit retrofit = construirRetrofit(baseUrl);
@@ -49,7 +62,9 @@ public class FormatMain {
                 if (response.isSuccessful()) {
                     Map<String, Object> map = response.body();
                     data_format_1 dataFormat1 = new data_format_1();
-                    dataFormat1.setResponse(map);
+                    Log.d("---------------", "data -...........................: " + map.toString());
+
+                    dataFormat1.setResponse(map , jSQLite);
 
                 } else {
 
@@ -99,8 +114,9 @@ public class FormatMain {
     }
 
 
-    public void setListaUrl(List<ULR> listaUrl) {
+    public void setListaUrl(List<ULR> listaUrl  , JSQLite jSQLite) {
         this.listaUrl = listaUrl;
+        this.jSQLite = jSQLite;
     }
 
     public FormatMain() {
