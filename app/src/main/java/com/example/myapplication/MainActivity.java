@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity  {
         v1.setListaUrl(listaUrl);
 
 
-        textView.setText(v1.toString());
+        textView.setText(v1.proceso());
     }
 
 
