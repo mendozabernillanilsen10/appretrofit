@@ -4,7 +4,39 @@ package com.example.myapplication.utils.others;
  * Created by Kevin Vilcherrez on 12/10/2015.
  */
 public class sql {
-    public static String[] tablas = ("CREATE TABLE IF NOT EXISTS cliente (\n" +
+    public static String[] tablas = (
+
+            "CREATE TABLE IF NOT EXISTS tabla_api4_01 (\n" +
+                    "    iddatabase        VARCHAR(25)    DEFAULT '',\n" +
+                    "    idempresa         VARCHAR(5)     DEFAULT '',\n" +
+                    "    idcosechalabor    VARCHAR(36) PRIMARY KEY NOT NULL,\n" +
+                    "    descripcion       VARCHAR(200)   DEFAULT '',\n" +
+                    "    descripcion_corta VARCHAR(200)   DEFAULT '',\n" +
+                    "    idcultivo         VARCHAR(10)    NOT NULL,\n" +
+                    "    idactividad       VARCHAR(25)    DEFAULT '',\n" +
+                    "    idlabor           VARCHAR(25)    DEFAULT '',\n" +
+                    "    esrendimiento     SMALLINT       DEFAULT 0,\n" +
+                    "    meta              DECIMAL(10, 2) DEFAULT 0.0,\n" +
+                    "    costo             DECIMAL(10, 2) DEFAULT 0.0,\n" +
+                    "    observaciones     TEXT           DEFAULT '...' NOT NULL,\n" +
+                    "    activo            SMALLINT       DEFAULT 1 NOT NULL,\n" +
+                    "    fechacreacion     DATETIME       DEFAULT (datetime(current_timestamp, 'localtime'))\n" +
+                    ");\n" +
+                    "CREATE TABLE IF NOT EXISTS tabla_api4_02 (\n" +
+                    "  idempresa    VARCHAR(25) NOT NULL,\n" +
+                    "  idtrabajador VARCHAR(25)   NOT NULL,\n" +
+                    "  nombresall   VARCHAR(300) NOT NULL,\n" +
+                    "  habilitado      char(1)     NOT NULL,\n" +
+                    "  cnrodocumento   varchar(12)     NOT NULL,\n" +
+                    "  idplanilla      VARCHAR(15) NOT NULL,\n" +
+                    "  listanegra      char(2)   default 'NO'  NOT NULL,\n" +
+                    "  liquidado       INT     default 0    NOT NULL,\n" +
+                    "  fecha_ingreso   DATETIME    NULL,\n" +
+                    "  fecha_cese      DATETIME    NULL,\n" +
+                    "  fecha_liquidado DATETIME    NULL\n" +
+                    ");\n" +
+
+            "CREATE TABLE IF NOT EXISTS cliente (\n" +
             "  idcliente     VARCHAR(11) PRIMARY KEY,\n" +
             "  ruc           CHAR(11)     NOT NULL,\n" +
             "  razon_social  VARCHAR(50)  NOT NULL,\n" +

@@ -10,6 +10,8 @@ import android.net.UrlQuerySanitizer;
 
 import com.example.library.exection.GeneralServiceException;
 import com.example.library.jpreferences.Pref;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -273,6 +275,31 @@ public class JSQLite {
         }
     }
 
+    public void insertData2(String tableName, List<Map<String, Object>> dataList) {
+        if (db != null && db.isOpen()) {
+            db.beginTransaction();
+            try {
+                for (Map<String, Object> data : dataList) {
+                    ContentValues values = new ContentValues();
+                    for (Map.Entry<String, Object> entry : data.entrySet()) {
+                        if (entry.getValue() instanceof String) {
+                            values.put(entry.getKey(), (String) entry.getValue());
+                        } else if (entry.getValue() instanceof Double) {
+                            values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
+                        } else if (entry.getValue() instanceof Integer) {
+                            values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
+                        } else {
+                            // Handle other types accordingly
+                        }
+                    }
+                    db.insert(tableName, null, values);
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+    }
 
 
 }

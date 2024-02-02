@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity  {
         FormatMain v1 = new FormatMain();
         v1.setListaUrl(listaUrl , jSQLite);
 
-        String s= v1.proceso();
+        String s= v1.proceso4();
         sqlite.cerrar();
     }
 

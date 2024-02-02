@@ -21,4 +21,5 @@ public class SQLite extends JSQLite {
             }
             pref = new Pref(CONTEXT);
     }
+
 }

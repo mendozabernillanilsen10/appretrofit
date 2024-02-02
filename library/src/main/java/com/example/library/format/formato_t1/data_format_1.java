@@ -41,13 +41,8 @@ public class data_format_1 {
                         Log.d("---------------", "------------------------------------------------------------------ ");
                     }
                 }
-
-
-
             }
         }
-
-
     }
 
     public List<Map<String, Object>>  getIten( String key) {
