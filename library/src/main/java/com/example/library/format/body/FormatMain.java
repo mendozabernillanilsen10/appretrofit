@@ -6,7 +6,9 @@ import com.example.library.format.retrofit.ConsumoRetrofit;
 import com.example.library.format.retrofit.Service;
 
 import java.util.List;
+import java.util.Map;
 
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -29,15 +31,23 @@ public class FormatMain {
 
                 Retrofit retrofit = construirRetrofit(baseUrl);
                 if (retrofit == null) {
-                    return;
+                    return "Error en la URL";
                 }
                 Service interfaceApi = retrofit.create(Service.class);
 
+                Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
+                realizarLlamadaApi(call);
 
             }
         }
 
        return "URL: " + reponse;
+
+    }
+
+    private void realizarLlamadaApi(Call<Map<String, Object>> call)
+    {
+
 
     }
 
