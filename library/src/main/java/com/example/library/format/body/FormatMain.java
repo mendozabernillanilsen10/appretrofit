@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.library.database.JSQLite;
 import com.example.library.format.formato_t1.data_format_1;
+import com.example.library.format.formato_t2.data_format_2;
 import com.example.library.format.model.URL;
 import com.example.library.format.retrofit.Service;
 
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -43,13 +46,17 @@ public class FormatMain {
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
                 llamadoApiFormato_uno(call);
-            }else if(url.getTipoPetiocion() == 1){
-
+            }else if(url.getTipoPetiocion() == 2){
+                Log.d("---------------", url.getUrl());
+                Service interfaceApi = retrofit.create(Service.class);
+                Call<Map<String, Object>> call = interfaceApi.optner_lista_dos(endpoint);
+                llamadoApiFormato_dos(call);
             }
-
         }
         return responseBuilder.toString();
     }
+
+
 
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
@@ -73,7 +80,28 @@ public class FormatMain {
         return "";
     }
 
+   private String llamadoApiFormato_dos(Call<Map<String, Object>> call){
+       call.enqueue(new Callback<Map<String, Object>>() {
+           @Override
+           public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful()) {
+                     Map<String, Object> map = response.body();
+                     data_format_2 dataFormat = new data_format_2();
+                    // Log.d("---------------", "data -...........................: " + map.toString());
+                      dataFormat.setResponse(map , jSQLite);
+                } else {
+                }
+           }
+           @Override
+           public void onFailure(Call<Map<String, Object>> call, Throwable t) {
 
+           }
+       });
+
+
+
+        return "";
+   }
 
 
 

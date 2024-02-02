@@ -31,7 +31,7 @@ public class data_format_1 {
         for (Map.Entry<String, Object> entry : body.entrySet()) {
             // Check if table count is 1 for the current key
             if (this.jSQLite.getTableCount(entry.getKey()) == 1) {
-                Log.d("---------------", "nombre de la tabla  : " + entry.getKey());
+               // Log.d("---------------", "nombre de la tabla  : " + entry.getKey());
                 this.jSQLite.abrir();
                 if (entry.getValue() instanceof List) {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();

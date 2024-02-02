@@ -268,10 +268,10 @@ public class JSQLite {
                     // Handle other types accordingly
                 }
             }
-            // Insert data into the specified table
-            db.insert(tableName, null, values);
+            db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
+
 
 
 
