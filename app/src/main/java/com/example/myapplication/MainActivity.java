@@ -9,9 +9,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.library.database.JSQLite;
 import com.example.library.format.body.FormatMain;
 import com.example.library.format.model.ULR;
+import com.example.library.jother.jdir;
+import com.example.myapplication.db.SQLite;
 import com.example.myapplication.url.ListaUrl;
+import com.example.myapplication.utils.others.files;
 
 
 import java.util.List;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity  {
         textView = findViewById(R.id.textView);
         filledTonalButton = findViewById(R.id.filledTonalButton);
 
-        /*
+
         SQLite sqlite = new SQLite(this);
         sqlite.abrir();
 
@@ -45,14 +49,12 @@ public class MainActivity extends AppCompatActivity  {
         sqlite.cerrar();
 
 
-        */
-
         List<ULR> listaUrl = new ListaUrl().getListaUrl();
         FormatMain v1 = new FormatMain();
         v1.setListaUrl(listaUrl);
 
 
-        textView.setText(v1.proceso());
+        //textView.setText(v1.proceso());
     }
 
 
