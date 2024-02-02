@@ -37,15 +37,13 @@ public class data_format_1 {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
                         // Log key-value pairs within the list
-                        jSQLite.insertData(entry.getKey(), map);
-                        Log.d("---------------", "------------------------------------------------------------------ ");
+                        jSQLite.InsertarFormato_01(entry.getKey(), map);
                     }
                 }
 
-
-
             }
         }
+        Log.d("---------------", "----------------------Insertado Formato 01 -------------------------------------------- ");
 
 
     }

@@ -43,6 +43,8 @@ public class URL {
         this.token = token;
         this.tabla = tabla;
     }
+
+
     @Override
     public String toString() {
         // Customize the string representation as needed

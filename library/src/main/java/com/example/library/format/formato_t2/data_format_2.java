@@ -20,66 +20,31 @@ public class data_format_2 {
     public Map<String, Object> getResponse() {
         return response;
     }
-    public void setResponse(Map<String, Object> response , JSQLite jSQLite) {
+
+    public void setResponse(Map<String, Object> response, JSQLite jSQLite) {
         this.response = response;
         this.jSQLite = jSQLite;
         this.body = (List<Map<String, Object>>) response.get("data");
+
         if (body != null) {
             for (Map<String, Object> entry : body) {
                 for (String key : entry.keySet()) {
-                    if(this.jSQLite.getTableCount(key) == 1){
-                        if (key.equals(key)) {
-                            Log.d("---------------", "nombre de la tabla : " + key );
-                            Map<String, Object> formatocosecha = (Map<String, Object>) entry.get(key);
-                            if (formatocosecha.containsKey("header")) {
-                                Map<String, Object> header = (Map<String, Object>) formatocosecha.get("header");
-                                // Log the column names from the header
-                                for (Object columnName : header.values()) {
-                                    Log.d("---------------", "header: " + columnName);
-                                }
-                            }
-                            if (formatocosecha.containsKey("data")) {
-                                List<Map<String, Object>> contentList = (List<Map<String, Object>>) formatocosecha.get("data");
-                                for (Map<String, Object> content : contentList) {
-                                    Log.d("---------------", "columna "+content.toString());
-                                }
-                            }
-                        }
+                    if (this.jSQLite.getTableCount(key) == 1) {
+                        Log.d("---------------", "nombre de la tabla : " + key);
+
+                        Map<String, Object>  entry_body = (Map<String, Object>) entry.get(key);
+                        jSQLite.abrir();
+                        jSQLite.Insertar_02(key, entry_body);
+
+
                     }
-                    Log.d("---------------", "------------------------------------------------------------------ ");
-
-
                 }
             }
         }
+        Log.d("---------------", "----------------------Insertado Formato 02-------------------------------------------- ");
 
-
-
-
-        /*
-        for (Map.Entry<String, Object> entry : body.entrySet()) {
-            // Check if table count is 1 for the current key
-            if (this.jSQLite.getTableCount(entry.getKey()) == 1) {
-                this.jSQLite.abrir();
-
-                /*
-
-                if (entry.getValue() instanceof List) {
-                    List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
-                    for (Map<String, Object> map : list) {
-                        // Log key-value pairs within the list
-                        jSQLite.insertData(entry.getKey(), map);
-                        Log.d("---------------", "------------------------------------------------------------------ ");
-                    }
-                }
-
-
-
-            }
-        }
-
-*/
     }
+
     public JSQLite getjSQLite() {
         return jSQLite;
     }
