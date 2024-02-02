@@ -1,6 +1,6 @@
 package com.example.library.format.model;
 
-public class ULR {
+public class URL {
     private String url;
     private int tipoPetiocion;
     private String token;
@@ -22,22 +22,22 @@ public class ULR {
         return tabla;
     }
 
-    public ULR(String url) {
+    public URL(String url) {
         this.url = url;
     }
 
-    public ULR(String url, int tipoPetiocion) {
+    public URL(String url, int tipoPetiocion) {
         this.url = url;
         this.tipoPetiocion = tipoPetiocion;
     }
 
-    public ULR(String url, int tipoPetiocion, String token) {
+    public URL(String url, int tipoPetiocion, String token) {
         this.url = url;
         this.tipoPetiocion = tipoPetiocion;
         this.token = token;
     }
 
-    public ULR(String url, int tipoPetiocion, String token, String tabla) {
+    public URL(String url, int tipoPetiocion, String token, String tabla) {
         this.url = url;
         this.tipoPetiocion = tipoPetiocion;
         this.token = token;

@@ -110,39 +110,6 @@ public class JSQLite {
        // jmethods.infoLog("@@@@@ Close BD: " + sqliteHelper.getDatabaseName() + " | " + CONTEXT.getClass().getSimpleName() + " / " + getClass().getName());
     }
 
-    /**
-     * Calcular un Entero, por medio de un Query Directo
-     *
-     * @param consulta Consulta Query
-     * @return
-     */
-    public int get_int(String consulta) {
-        int r = 0;
-        Cursor c = db.rawQuery(consulta, null);
-        try {
-            if (c.moveToFirst()) {
-                do {
-                    r = c.getInt(0);
-                } while (c.moveToNext());
-            }
-        } catch (SQLiteException e) {
-            showException(e);
-        } finally {
-            assert c != null;
-            c.close();
-        }
-        //imprimirSL(3);
-       // imprimir("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        /*imprimir("int get_int(String consulta)");
-        imprimir(consulta);
-        imprimir("R = " + r);
-        imprimir("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        imprimirSL(3);
-        */
-        return r;
-    }
-
-
 
     public boolean isENCRIPT() {
         return ENCRIPT;
@@ -168,7 +135,6 @@ public class JSQLite {
             showException(e);
         }
     }
-
     public int borrarTablaInt(String tabla) {
         return db.delete(tabla, null, null);
     }
@@ -181,7 +147,6 @@ public class JSQLite {
             showException(e);
         }
     }
-
     public void exec_query(String consulta, boolean encripted, Object... data) {
         try {
             consulta = parseQuery(consulta, encripted, data);
@@ -191,7 +156,6 @@ public class JSQLite {
             showException(e);
         }
     }
-
     public String getTableNames() {
         StringBuilder tableNamesBuilder = new StringBuilder();
         SQLiteDatabase db = sqliteHelper.getReadableDatabase();
@@ -213,8 +177,6 @@ public class JSQLite {
                 cursor.close();
             }
         }
-
-
         // Remove the trailing comma and space
         int length = tableNamesBuilder.length();
         if (length > 2) {
@@ -223,18 +185,6 @@ public class JSQLite {
 
         return tableNamesBuilder.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private String parseQuery(String consulta, boolean encripted, Object[] data) {
@@ -286,48 +236,9 @@ public class JSQLite {
         return r;
     }
 
-
-
-
-    public int insertarRegistro(String tabla, Map<String, Object> registro) {
-        int r = 0;
-
-        try {
-            db.beginTransaction();
-            ContentValues contentValues = new ContentValues();
-
-            for (Map.Entry<String, Object> entry : registro.entrySet()) {
-                String clave = entry.getKey();
-                Object valor = entry.getValue();
-
-                // Convierte el valor a String (puedes ajustar esta lógica según tus necesidades)
-                String valorString = String.valueOf(valor);
-
-                contentValues.put(clave, valorString);
-            }
-
-            r = Integer.parseInt(db.insert(tabla, null, contentValues) + "");
-            pref.setBool("generaltareo_existenMovimientos", false);
-            db.setTransactionSuccessful();
-        } catch (SQLiteException e) {
-            showException(e);
-        } finally {
-            db.endTransaction();
-        }
-
-        return r;
-    }
-
-
-
-
-
- // wxite la tabal
     public int getTableCount(String tableName) {
         int tableCount = 0;
         SQLiteDatabase db = sqliteHelper.getWritableDatabase();
-
-        // Consulta para obtener el recuento de tablas con el nombre proporcionado
         String query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=?";
         Cursor cursor = db.rawQuery(query, new String[]{tableName});
 
@@ -337,8 +248,31 @@ public class JSQLite {
             }
             cursor.close();
         }
+
         return tableCount;
     }
+
+    public void insertData(String tableName, Map<String, Object> data) {
+        if (db != null && db.isOpen()) {
+            ContentValues values = new ContentValues();
+
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                // Convert the values to appropriate types based on your database schema
+                if (entry.getValue() instanceof String) {
+                    values.put(entry.getKey(), (String) entry.getValue());
+                } else if (entry.getValue() instanceof Double) {
+                    values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
+                } else if (entry.getValue() instanceof Integer) {
+                    values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
+                } else {
+                    // Handle other types accordingly
+                }
+            }
+            // Insert data into the specified table
+            db.insert(tableName, null, values);
+        }
+    }
+
 
 
 }

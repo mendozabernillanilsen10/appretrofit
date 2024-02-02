@@ -29,26 +29,24 @@ public class data_format_1 {
         this.jSQLite = jSQLite;
 
         for (Map.Entry<String, Object> entry : body.entrySet()) {
-
-
-
-            if(this.jSQLite.getTableCount( entry.getKey()) == 1){
-               // Log.d("---------------", "nombre de la tabla  : " + this.jSQLite.getTableCount( entry.getKey()));
-                Log.d("---------------", "nombre de la tabla  : "+ entry.getKey());
-                Log.d("---------------", "nombre de la tabla  : "+ this.jSQLite.getTableCount(entry.getKey()));
-
+            // Check if table count is 1 for the current key
+            if (this.jSQLite.getTableCount(entry.getKey()) == 1) {
+                Log.d("---------------", "nombre de la tabla  : " + entry.getKey());
+                this.jSQLite.abrir();
                 if (entry.getValue() instanceof List) {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
-                        for (Map.Entry<String, Object> entry2 : map.entrySet()) {
-                            Log.d("---------------", "dataaaaaaaaaaaaaaaaaakey: " + entry2.getKey());
-                            Log.d("---------------", "dataaaaaaaaaaaaaaaaaavalue: " + entry2.getValue());
-                        }
+                        // Log key-value pairs within the list
+                        jSQLite.insertData(entry.getKey(), map);
+                        Log.d("---------------", "------------------------------------------------------------------ ");
                     }
                 }
-            }
 
+
+
+            }
         }
+
 
     }
 

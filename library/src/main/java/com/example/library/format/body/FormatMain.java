@@ -5,8 +5,7 @@ import android.util.Log;
 
 import com.example.library.database.JSQLite;
 import com.example.library.format.formato_t1.data_format_1;
-import com.example.library.format.model.ULR;
-import com.example.library.format.retrofit.ConsumoRetrofit;
+import com.example.library.format.model.URL;
 import com.example.library.format.retrofit.Service;
 
 import java.util.List;
@@ -17,45 +16,42 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormatMain {
-    private List<ULR> listaUrl;
+    private List<URL> listaUrl;
 
     JSQLite jSQLite;
 
-    public FormatMain(List<ULR> listaUrl, JSQLite jSQLite) {
+    public FormatMain(List<URL> listaUrl, JSQLite jSQLite) {
         this.listaUrl = listaUrl;
         this.jSQLite = jSQLite;
     }
 
-    public List<ULR> getListaUrl() {
+    public List<URL> getListaUrl() {
         return listaUrl;
     }
 
 
     public String proceso() {
         StringBuilder responseBuilder = new StringBuilder();
-
-        List<ULR> listaUrl = this.listaUrl;
-
-        for (ULR url : listaUrl) {
+        List<URL> listaUrl = this.listaUrl;
+        for (URL url : listaUrl) {
+            String baseUrl = obtenerBaseUrl(url.getUrl());
+            String endpoint = obtenerEndpoint(url.getUrl());
+            Retrofit retrofit = construirRetrofit(baseUrl);
 
             if (url.getTipoPetiocion() == 1) {
                 Log.d("---------------", url.getUrl());
-
-                String baseUrl = obtenerBaseUrl(url.getUrl());
-                String endpoint = obtenerEndpoint(url.getUrl());
-                Retrofit retrofit = construirRetrofit(baseUrl);
                 Service interfaceApi = retrofit.create(Service.class);
-                Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
-                realizarLlamadaApi(call);
+                Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
+                llamadoApiFormato_uno(call);
+            }else if(url.getTipoPetiocion() == 1){
 
             }
-
 
         }
         return responseBuilder.toString();
     }
 
-    private String  realizarLlamadaApi(Call<Map<String, Object>> call) {
+    private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, retrofit2.Response<Map<String, Object>> response) {
@@ -63,14 +59,12 @@ public class FormatMain {
                     Map<String, Object> map = response.body();
                     data_format_1 dataFormat1 = new data_format_1();
                     Log.d("---------------", "data -...........................: " + map.toString());
-
                     dataFormat1.setResponse(map , jSQLite);
 
                 } else {
 
                 }
             }
-
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                 Log.d("TAG", "onFailure: " + t.getMessage());
@@ -78,6 +72,20 @@ public class FormatMain {
         });
         return "";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private String obtenerEndpoint(String fullUrl) {
         int lastSlashIndex = fullUrl.lastIndexOf("/");
@@ -114,7 +122,7 @@ public class FormatMain {
     }
 
 
-    public void setListaUrl(List<ULR> listaUrl  , JSQLite jSQLite) {
+    public void setListaUrl(List<URL> listaUrl  , JSQLite jSQLite) {
         this.listaUrl = listaUrl;
         this.jSQLite = jSQLite;
     }
