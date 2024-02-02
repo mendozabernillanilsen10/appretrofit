@@ -14,7 +14,6 @@ public class JSQLiteHelper extends SQLiteOpenHelper {
     private Context context;
     public JSQLiteHelper(Context context, String dirBD, int verBD) {
         super(context, dirBD, null, verBD);
-
     }
     @Override
     public void onCreate(SQLiteDatabase db) {

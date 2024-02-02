@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.library.database.JSQLite;
 import com.example.library.format.body.FormatMain;
-import com.example.library.format.model.ULR;
+import com.example.library.format.model.URL;
 import com.example.library.jother.jdir;
 import com.example.myapplication.db.SQLite;
 import com.example.myapplication.url.ListaUrl;
@@ -37,20 +37,16 @@ public class MainActivity extends AppCompatActivity  {
     private void initView( ) {
         textView = findViewById(R.id.textView);
         filledTonalButton = findViewById(R.id.filledTonalButton);
-
         SQLite sqlite = new SQLite(this);
         sqlite.abrir();
-
         JSQLite jSQLite = new JSQLite(this, jdir.pathPrincipal((AppCompatActivity) this) + files.DIR_DB_FINAL, 206);
-        sqlite.cerrar();
-
-
-        List<ULR> listaUrl = new ListaUrl().getListaUrl();
+        jSQLite.abrir();
+        List<URL> listaUrl = new ListaUrl().getListaUrl();
         FormatMain v1 = new FormatMain();
         v1.setListaUrl(listaUrl , jSQLite);
 
         String s= v1.proceso();
-        //textView.setText(v1.proceso());
+        sqlite.cerrar();
     }
 
 
