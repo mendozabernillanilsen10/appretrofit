@@ -30,35 +30,29 @@ public class FormatMain {
             if (url.getTipoPetiocion() == 1) {
                 String baseUrl = obtenerBaseUrl(url.getUrl());
                 String endpoint = obtenerEndpoint(url.getUrl());
-
                 Retrofit retrofit = construirRetrofit(baseUrl);
-
                 Service interfaceApi = retrofit.create(Service.class);
-
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
                 realizarLlamadaApi(call);
 
-
             }
-        }
 
+
+        }
         return responseBuilder.toString();
     }
 
-
-    private String  realizarLlamadaApi(Call<Map<String, Object>> call)
-    {
+    private String  realizarLlamadaApi(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, retrofit2.Response<Map<String, Object>> response) {
                 if (response.isSuccessful()) {
                     Map<String, Object> map = response.body();
-
                     data_format_1 dataFormat1 = new data_format_1();
                     dataFormat1.setResponse(map);
 
                 } else {
-                    // Manejar respuesta no exitosa si es necesario
+
                 }
             }
 
@@ -67,6 +61,7 @@ public class FormatMain {
                 Log.d("TAG", "onFailure: " + t.getMessage());
             }
         });
+        return "";
     }
 
     private String obtenerEndpoint(String fullUrl) {

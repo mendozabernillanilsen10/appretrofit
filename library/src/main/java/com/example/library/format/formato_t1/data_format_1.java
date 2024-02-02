@@ -1,5 +1,7 @@
 package com.example.library.format.formato_t1;
 
+import android.util.Log;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +19,21 @@ public class data_format_1 {
         this.status = (boolean) response.get("status");
         this.message = (String) response.get("message");
         this.body = (Map<String, Object>) response.get("data");
+
+        for (Map.Entry<String, Object> entry : body.entrySet()) {
+            Log.println(Log.INFO, "Key", entry.getKey());
+        }
+
     }
 
 
 
+
+
+
+
+
+    
 
     public List<Map<String, Object>>  getIten( String key) {
         return (List<Map<String, Object>>) body.get(key);
