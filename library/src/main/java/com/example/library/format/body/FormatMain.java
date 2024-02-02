@@ -3,6 +3,7 @@ package com.example.library.format.body;
 
 import android.util.Log;
 
+import com.example.library.format.formato_t1.data_format_1;
 import com.example.library.format.model.ULR;
 import com.example.library.format.retrofit.ConsumoRetrofit;
 import com.example.library.format.retrofit.Service;
@@ -35,28 +36,9 @@ public class FormatMain {
                 Service interfaceApi = retrofit.create(Service.class);
 
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
+                realizarLlamadaApi(call);
 
-                Log.d("---------------", "PRUEBA DE MENSAJE DE URL: " + url.getUrl());
 
-                call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
-                    @Override
-                    public void onResponse(Call<Map<String, Object>> call, retrofit2.Response<Map<String, Object>> response) {
-                        if (response.isSuccessful()) {
-                            Map<String, Object> map = response.body();
-                            Log.d("---------------", "PRUEBA DE MENSAJE DE URL 22222: " + url.getUrl());
-
-                            responseBuilder.append("Response: ").append(map.toString()).append("\n");
-
-                        } else {
-                            // Manejar respuesta no exitosa si es necesario
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                        Log.d("TAG", "onFailure: " + t.getMessage());
-                    }
-                });
             }
         }
 
@@ -66,16 +48,17 @@ public class FormatMain {
 
     private String  realizarLlamadaApi(Call<Map<String, Object>> call)
     {
-        final String[] reponse = {""};
-
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, retrofit2.Response<Map<String, Object>> response) {
                 if (response.isSuccessful()) {
                     Map<String, Object> map = response.body();
-                    reponse[0] = "Response: " + map.toString();
+
+                    data_format_1 dataFormat1 = new data_format_1();
+                    dataFormat1.setResponse(map);
+
                 } else {
-                    reponse[0] = "Error en la petición";
+                    // Manejar respuesta no exitosa si es necesario
                 }
             }
 
@@ -84,7 +67,6 @@ public class FormatMain {
                 Log.d("TAG", "onFailure: " + t.getMessage());
             }
         });
-        return reponse[0];
     }
 
     private String obtenerEndpoint(String fullUrl) {
