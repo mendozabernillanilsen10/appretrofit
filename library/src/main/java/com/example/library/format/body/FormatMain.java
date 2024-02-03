@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.library.database.JSQLite;
 import com.example.library.format.formato_t1.data_format_1;
+import com.example.library.format.formato_t2.data_format_2;
+import com.example.library.format.formato_t3.data_format_3;
 import com.example.library.format.model.URL;
 import com.example.library.format.retrofit.Service;
 
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -38,18 +42,27 @@ public class FormatMain {
             String endpoint = obtenerEndpoint(url.getUrl());
             Retrofit retrofit = construirRetrofit(baseUrl);
 
-            if (url.getTipoPetiocion() == 1) {
-                Log.d("---------------", url.getUrl());
+            if (url.getTipoPetiocion() == 19) {
+                Log.d("------formatoUno-------", "------------------------------------------------------------------");
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
                 llamadoApiFormato_uno(call);
-            }else if(url.getTipoPetiocion() == 1){
-
+            }else  if(url.getTipoPetiocion() == 29){
+                Log.d("----formatodos-----", "------------------------------------------------------------------");
+                Service interfaceApi = retrofit.create(Service.class);
+                Call<Map<String, Object>> call = interfaceApi.optner_lista_dos(endpoint);
+                llamadoApiFormato_dos(call);
+            }else if (url.getTipoPetiocion() == 3){
+                Log.d("----formatotres-----", "------------------------------------------------------------------");
+                Service interfaceApi = retrofit.create(Service.class);
+                Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
+                llamadoApiFormato_tres(call ,url.getTabla() );
             }
-
         }
         return responseBuilder.toString();
     }
+
+
 
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
@@ -58,9 +71,7 @@ public class FormatMain {
                 if (response.isSuccessful()) {
                     Map<String, Object> map = response.body();
                     data_format_1 dataFormat1 = new data_format_1();
-                    Log.d("---------------", "data -...........................: " + map.toString());
                     dataFormat1.setResponse(map , jSQLite);
-
                 } else {
 
                 }
@@ -73,8 +84,44 @@ public class FormatMain {
         return "";
     }
 
+   private String llamadoApiFormato_dos(Call<Map<String, Object>> call){
+       call.enqueue(new Callback<Map<String, Object>>() {
+           @Override
+           public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful()) {
+                     Map<String, Object> map = response.body();
+                     data_format_2 dataFormat = new data_format_2();
+                    // Log.d("---------------", "data -...........................: " + map.toString());
+                      dataFormat.setResponse(map , jSQLite);
+                } else {
+                }
+           }
+           @Override
+           public void onFailure(Call<Map<String, Object>> call, Throwable t) {
 
+           }
+       });
+        return "";
+   }
 
+   private String llamadoApiFormato_tres(Call<Map<String, Object>> call , String Table) {
+       call.enqueue(new Callback<Map<String, Object>>() {
+           @Override
+           public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+               if (response.isSuccessful()) {
+                   Map<String, Object> map = response.body();
+                   data_format_3 dataFormat = new data_format_3();
+                   dataFormat.setBody(map, jSQLite,Table);
+               } else {
+               }
+           }
+           @Override
+           public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
+           }
+       });
+       return "";
+   }
 
 
 

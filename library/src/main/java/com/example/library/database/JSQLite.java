@@ -7,16 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.UrlQuerySanitizer;
+import android.util.Log;
 
-import com.example.library.exection.GeneralServiceException;
 import com.example.library.jpreferences.Pref;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +101,7 @@ public class JSQLite {
     public void cerrar() {
         OPEN = false;
         sqliteHelper.close();
-       // jmethods.infoLog("@@@@@ Close BD: " + sqliteHelper.getDatabaseName() + " | " + CONTEXT.getClass().getSimpleName() + " / " + getClass().getName());
+        // jmethods.infoLog("@@@@@ Close BD: " + sqliteHelper.getDatabaseName() + " | " + CONTEXT.getClass().getSimpleName() + " / " + getClass().getName());
     }
 
 
@@ -135,6 +129,7 @@ public class JSQLite {
             showException(e);
         }
     }
+
     public int borrarTablaInt(String tabla) {
         return db.delete(tabla, null, null);
     }
@@ -147,15 +142,17 @@ public class JSQLite {
             showException(e);
         }
     }
+
     public void exec_query(String consulta, boolean encripted, Object... data) {
         try {
             consulta = parseQuery(consulta, encripted, data);
-           // imprimir("\nexec_query(String consulta)\n" + "E = " + consulta + "\n \n");
+            // imprimir("\nexec_query(String consulta)\n" + "E = " + consulta + "\n \n");
             db.execSQL(consulta);
         } catch (SQLiteException e) {
             showException(e);
         }
     }
+
     public String getTableNames() {
         StringBuilder tableNamesBuilder = new StringBuilder();
         SQLiteDatabase db = sqliteHelper.getReadableDatabase();
@@ -189,31 +186,16 @@ public class JSQLite {
 
     private String parseQuery(String consulta, boolean encripted, Object[] data) {
 
-    return consulta;
+        return consulta;
     }
 
 
     private void showException(Exception e) {
-      //  imprimir(e.getMessage());
+        //  imprimir(e.getMessage());
         //String problem = jdate.getFechaHora(5) + "\nSe ha encontrado una Observacion:\n" + CONTEXT.getClass().getCanonicalName() + "\n" + "ST" + "Message: " + e.getMessage() + "\n\n" + "Cause: " + e.getCause() + "\n\n" + "LocalMessage: " + e.getLocalizedMessage() + "\n\n" + "Stack: " + Arrays.toString(e.getStackTrace()) + "\n\n" + "Final: " + e.toString() + "\n\n\n";
-     //   jdialog.DialogSimple(CONTEXT, "Mensaje de Problema", problem);
-      //  printFileLog(fileLog, problem);
+        //   jdialog.DialogSimple(CONTEXT, "Mensaje de Problema", problem);
+        //  printFileLog(fileLog, problem);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public int insertarRegistro(String tabla, String[] cabeceras, String... values) {
@@ -247,12 +229,14 @@ public class JSQLite {
                 tableCount = cursor.getInt(0);
             }
             cursor.close();
+        } else {
+            Log.d("---------------", "no eeta creada la tabla : " + tableName);
         }
 
         return tableCount;
     }
 
-    public void insertData(String tableName, Map<String, Object> data) {
+    public void InsertarFormato_01(String tableName, Map<String, Object> data) {
         if (db != null && db.isOpen()) {
             ContentValues values = new ContentValues();
 
@@ -268,11 +252,63 @@ public class JSQLite {
                     // Handle other types accordingly
                 }
             }
-            // Insert data into the specified table
-            db.insert(tableName, null, values);
+            db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
 
+    public void Insertar_02(String tableName, Map<String, Object> entry) {
+        if (db != null && db.isOpen()) {
+            Log.d("---------------", "tabla: " + tableName);
+            if (entry.containsKey("header") && entry.containsKey("data")) {
+                Map<String, Object> header = (Map<String, Object>) entry.get("header");
+                List<Map<String, Object>> contentList = (List<Map<String, Object>>) entry.get("data");
+
+                if (tableName != null && !tableName.isEmpty()) {
+                    for (Map<String, Object> content : contentList) {
+                        ContentValues contentValues = new ContentValues();
+                        for (Map.Entry<String, Object> contentEntry : content.entrySet()) {
+                            String columnName = contentEntry.getKey();
+                            String headerKey = (String) header.get(columnName);
+                            if (headerKey != null) {
+                                contentValues.put(headerKey, String.valueOf(contentEntry.getValue()));
+                            }
+                        }
+
+                        db.insertWithOnConflict(tableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+                    }
+                } else {
+                    Log.e("---------------", "El nombre de la tabla es nulo o vacío");
+                }
+            }
+        }
+    }
+
+    public void insertarData3(String tableName, List<Map<String, Object>> header, List<Map<String, Object>> contentList) {
+        if (db != null && db.isOpen()) {
+
+            try {
+                Log.e("---------------", header.toString());
+
+            } catch (Exception e) {
+                Log.e("---------------", "Error al insertar datos en la base de datos");
+            } finally {
+            }
+        } else {
+            Log.e("---------------", "La base de datos no está abierta");
+        }
+    }
+
+    // Utility method to get the key by value in a Map
+    private String QgetKeyByValue(Map<String, Object> map, Object value) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                return entry.getKey();
+            }
+        }
+        return null; // Not found
+    }
 
 
 }
+
+    // Helper method to get the corresponding header key for a given column name
