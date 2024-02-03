@@ -287,17 +287,8 @@ public class JSQLite {
         if (db != null && db.isOpen()) {
 
             try {
-                for (Map<String, Object> content : contentList) {
-                    ContentValues contentValues = new ContentValues();
-                    for (Map.Entry<String, Object> contentEntry : content.entrySet()) {
-                        String columnName = contentEntry.getKey();
-                        String headerKey = QgetKeyByValue(header.get(0), columnName);
-                        if (headerKey != null) {
-                            contentValues.put(headerKey, String.valueOf(contentEntry.getValue()));
-                        }
-                    }
-                    db.insertWithOnConflict(tableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
-                }
+                Log.e("---------------", header.toString());
+
             } catch (Exception e) {
                 Log.e("---------------", "Error al insertar datos en la base de datos");
             } finally {
