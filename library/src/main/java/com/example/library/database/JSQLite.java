@@ -282,33 +282,45 @@ public class JSQLite {
             }
         }
     }
-
-    public void insertarData3(String tableName, List<Map<String, Object>> header, List<Map<String, Object>> contentList) {
+    public void insertarData3(String tableName, List<String> headerList, List<Map<String, Object>> content) {
         if (db != null && db.isOpen()) {
+            if (tableName != null && !tableName.isEmpty()) {
+                try {
+                    db.beginTransaction();
 
-            try {
-                Log.e("---------------", header.toString());
+                    for (Map<String, Object> contentMap : content) {
+                        ContentValues values = new ContentValues();
+                        for (int i = 0; i < headerList.size(); i++) {
+                            String columnName = headerList.get(i);
+                            if (contentMap.containsKey("C" + i)) {
+                                Object columnValue = contentMap.get("C" + i);
+                                if (columnValue != null) {
+                                    // Realiza la inserción en la base de datos
+                                    values.put(columnName, columnValue.toString());
+                                } else {
+                                    // Puedes decidir cómo manejar valores nulos, por ejemplo, omitir la columna
+                                    Log.e("Error", "El valor de la columna " + columnName + " es nulo");
+                                }
+                            } else {
+                                Log.e("Error", "La columna " + columnName + " no existe en el contenido");
+                                // Puedes decidir cómo manejar esto, ya sea omitir la columna o lanzar una excepción
+                            }
+                        }
+                        // Realiza la inserción en la base de datos
+                        db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+                    }
 
-            } catch (Exception e) {
-                Log.e("---------------", "Error al insertar datos en la base de datos");
-            } finally {
+                    db.setTransactionSuccessful();
+                } catch (SQLiteException e) {
+                    Log.e("Error", "Error durante la transacción de inserción: " + e.getMessage());
+                } finally {
+                    db.endTransaction();
+                }
+            } else {
+                Log.e("Error", "El nombre de la tabla es nulo o vacío");
             }
-        } else {
-            Log.e("---------------", "La base de datos no está abierta");
         }
     }
-
-    // Utility method to get the key by value in a Map
-    private String QgetKeyByValue(Map<String, Object> map, Object value) {
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                return entry.getKey();
-            }
-        }
-        return null; // Not found
-    }
-
-
 }
 
     // Helper method to get the corresponding header key for a given column name

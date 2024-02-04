@@ -42,12 +42,12 @@ public class FormatMain {
             String endpoint = obtenerEndpoint(url.getUrl());
             Retrofit retrofit = construirRetrofit(baseUrl);
 
-            if (url.getTipoPetiocion() == 19) {
+            if (url.getTipoPetiocion() == 1) {
                 Log.d("------formatoUno-------", "------------------------------------------------------------------");
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
                 llamadoApiFormato_uno(call);
-            }else  if(url.getTipoPetiocion() == 29){
+            }else  if(url.getTipoPetiocion() == 2){
                 Log.d("----formatodos-----", "------------------------------------------------------------------");
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_dos(endpoint);
