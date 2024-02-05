@@ -32,14 +32,12 @@ public class data_format_3 implements Serializable {
         this.header = (List<String>) body.get("header");
         this.content = (List<Map<String, Object>>) body.get("content");
 
-
-                        if (jSQLite.getTableCount(tabla) == 1) {
-                            jSQLite.abrir();
-                            jSQLite.insertarData3(tabla, header, content);
-                        }else{
-                            Log.d("---------------", " no existe  la tabla : " + tabla);
-                        }
-
+            if (jSQLite.getTableCount(tabla) == 1) {
+                jSQLite.abrir();
+                jSQLite.insertarData3(tabla, header, content);
+            }else{
+                Log.d("---------------", " no existe  la tabla : " + tabla);
+            }
         Log.d("---------------", "----------------------Insertado Formato 03 -------------------------------------------- ");
 
     }

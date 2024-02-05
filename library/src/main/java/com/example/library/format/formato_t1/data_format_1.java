@@ -30,13 +30,13 @@ public class data_format_1 {
 
         for (Map.Entry<String, Object> entry : body.entrySet()) {
             // Check if table count is 1 for the current key
+
+            this.jSQLite.abrir();
             if (this.jSQLite.getTableCount(entry.getKey()) == 1) {
-               // Log.d("---------------", "nombre de la tabla  : " + entry.getKey());
-                this.jSQLite.abrir();
                 if (entry.getValue() instanceof List) {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
-                        jSQLite.InsertarFormato_01(entry.getKey(), map);
+                       jSQLite.InsertarFormato_01(entry.getKey(), map);
                     }
                 }
             }else{
@@ -45,9 +45,7 @@ public class data_format_1 {
         }
         Log.d("---------------", "----------------------Insertado Formato 01 -------------------------------------------- ");
 
-
     }
-
     public List<Map<String, Object>>  getIten( String key) {
         return (List<Map<String, Object>>) body.get(key);
     }

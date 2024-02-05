@@ -67,12 +67,10 @@ public class FormatMain {
                 llamadoApiFormato_cuatro(call ,url.getTabla() );
             }
         }
+
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-
-
-        responseBuilder.append("Tiempo total de ejecución: ").append(totalTime).append(" ms");
-
+        responseBuilder.append("Total time: ").append(totalTime).append(" ms");
         return responseBuilder.toString();
     }
 
@@ -92,7 +90,7 @@ public class FormatMain {
             }
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                Log.d("TAG", "onFailure: " + t.getMessage());
+                Log.d("TAG", "error: " + t.getMessage());
             }
         });
         return "";
@@ -117,7 +115,6 @@ public class FormatMain {
        });
         return "";
    }
-
    private String llamadoApiFormato_tres(Call<Map<String, Object>> call , String Table) {
        call.enqueue(new Callback<Map<String, Object>>() {
            @Override

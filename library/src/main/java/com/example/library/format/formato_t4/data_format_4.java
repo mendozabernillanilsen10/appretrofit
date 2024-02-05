@@ -22,13 +22,16 @@ public class data_format_4 {
         this.body = dataList;
         this.TABLE = TABLE;
         this.jSQLite = db;
-
         if (this != null) {
             try {
                 this.jSQLite.abrir();
-                // Crea una instancia de DatabaseTask y ejecútala
-                JSQLite.DatabaseTask databaseTask = new JSQLite.DatabaseTask(this.jSQLite, TABLE, dataList);
-                databaseTask.execute();
+                if (jSQLite.getTableCount(TABLE) == 1) {
+                    JSQLite.insertarData4 databaseTask = new JSQLite.insertarData4(this.jSQLite, TABLE, dataList);
+                    databaseTask.execute();
+                } else {
+                Log.d("---------------", " no existe la tabla : " + TABLE);
+                  }
+                    // Crea una instancia de DatabaseTask y ejecútala
             } catch (SQLiteConstraintException e) {
                 Log.d("---------------", "Error al insertar datos: " + e.getMessage());
             }
@@ -36,7 +39,6 @@ public class data_format_4 {
             Log.e("---------------", "JSQLite es nulo en setResponse");
         }
     }
-
     public List<Map<String, Object>> getBody() {
         return body;
     }

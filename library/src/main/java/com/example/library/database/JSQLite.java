@@ -229,13 +229,14 @@ public class JSQLite {
             if (cursor.moveToFirst()) {
                 tableCount = cursor.getInt(0);
             }
-            cursor.close();
         } else {
             Log.d("---------------", "no eeta creada la tabla : " + tableName);
         }
 
         return tableCount;
     }
+
+
 
     public void InsertarFormato_01(String tableName, Map<String, Object> data) {
         if (db != null && db.isOpen()) {
@@ -256,6 +257,18 @@ public class JSQLite {
             db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void Insertar_02(String tableName, Map<String, Object> entry) {
         if (db != null && db.isOpen()) {
@@ -283,6 +296,7 @@ public class JSQLite {
             }
         }
     }
+
     public void insertarData3(String tableName, List<String> headerList, List<Map<String, Object>> content) {
         if (db != null && db.isOpen()) {
             if (tableName != null && !tableName.isEmpty()) {
@@ -323,62 +337,41 @@ public class JSQLite {
         }
     }
 
-    public void insertarData4(String tableName, Map<String, Object> data) {
-        if (db != null && db.isOpen()) {
-            ContentValues values = new ContentValues();
-            for (Map.Entry<String, Object> entry : data.entrySet()) {
-                // Convert the values to appropriate types based on your database schema
-                if (entry.getValue() instanceof String) {
-                    values.put(entry.getKey(), (String) entry.getValue());
-                } else if (entry.getValue() instanceof Double) {
-                    values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
-                } else if (entry.getValue() instanceof Integer) {
-                    values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
-                } else {
-                    // Handle other types accordingly
-                }
-            }
-            db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        }
-    }
 
-
-    // ...
-
-    public static class DatabaseTask extends AsyncTask<Void, Void, Void > {
+    public static class insertarData4 extends AsyncTask<Void, Void, Void > {
         private JSQLite jSQLite;
         private String TABLE;
         private List<Map<String, Object>> dataList;
-        public DatabaseTask(JSQLite jSQLite, String TABLE, List<Map<String, Object>> dataList) {
+
+        public insertarData4(JSQLite jSQLite, String TABLE, List<Map<String, Object>> dataList) {
             this.jSQLite = jSQLite;
             this.TABLE = TABLE;
             this.dataList = dataList;
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
             SQLiteDatabase db = null;
             try {
                 jSQLite.abrir();
+
                 db = jSQLite.sqliteHelper.getWritableDatabase();
                 db.beginTransaction();
 
-                if (jSQLite.getTableCount(TABLE) == 1) {
                     for (Map<String, Object> item : dataList) {
                         insertarData4(db, TABLE, item);
                     }
                     db.setTransactionSuccessful();
-                } else {
-                    Log.d("---------------", " no existe la tabla : " + TABLE);
-                }
+
             } finally {
                 if (db != null) {
                     db.endTransaction();
                     db.close();
                 }
-                jSQLite.cerrar();
             }
             return null;
         }
+
         private void insertarData4(SQLiteDatabase db, String tableName, Map<String, Object> data) {
             ContentValues values = new ContentValues();
             for (Map.Entry<String, Object> entry : data.entrySet()) {
