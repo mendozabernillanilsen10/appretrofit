@@ -321,6 +321,27 @@ public class JSQLite {
             }
         }
     }
+
+    public void insertarData4(String tableName, Map<String, Object> data) {
+        if (db != null && db.isOpen()) {
+            ContentValues values = new ContentValues();
+
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                // Convert the values to appropriate types based on your database schema
+                if (entry.getValue() instanceof String) {
+                    values.put(entry.getKey(), (String) entry.getValue());
+                } else if (entry.getValue() instanceof Double) {
+                    values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
+                } else if (entry.getValue() instanceof Integer) {
+                    values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
+                } else {
+                    // Handle other types accordingly
+                }
+            }
+            // Insert data into the specified table
+            db.insert(tableName, null, values);
+        }
+    }
 }
 
     // Helper method to get the corresponding header key for a given column name
