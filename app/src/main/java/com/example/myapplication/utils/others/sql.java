@@ -34,6 +34,18 @@ public class sql {
             "  fecha_cese      DATETIME    NULL,\n" +
             "  fecha_liquidado DATETIME    NULL\n" +
             ");\n" +
+            "CREATE TABLE IF NOT EXISTS formatocosecha (\n" +
+            "    iddatabase        VARCHAR(25)    DEFAULT '',\n" +
+            "    idempresa         VARCHAR(5)     DEFAULT '',\n" +
+            "    idtipoformato    varchar(10)  NULL,\n" +
+            "    idformato        varchar(10)  NULL,\n" +
+            "    idtipoetiqueta   varchar(10)  NULL,\n" +
+            "    idtipoempaque    varchar(10)  NULL,\n" +
+            "    descripcion      varchar(300) NULL,\n" +
+            "    descripcioncorta varchar(30)  NULL,\n" +
+            "    activo           tinyint      NULL,\n" +
+            "    fechacreacion     DATETIME       DEFAULT (datetime(current_timestamp, 'localtime'))\n" +
+            ");\n" +
             "CREATE TABLE IF NOT EXISTS cliente (\n" +
             "  idcliente     VARCHAR(11) PRIMARY KEY,\n" +
             "  ruc           CHAR(11)     NOT NULL,\n" +
