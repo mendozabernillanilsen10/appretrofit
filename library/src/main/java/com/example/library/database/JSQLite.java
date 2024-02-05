@@ -221,20 +221,32 @@ public class JSQLite {
 
     public int getTableCount(String tableName) {
         int tableCount = 0;
-        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
-        String query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=?";
-        Cursor cursor = db.rawQuery(query, new String[]{tableName});
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
 
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
+        try {
+            db = sqliteHelper.getWritableDatabase();
+            String query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=?";
+            cursor = db.rawQuery(query, new String[]{tableName});
+
+            if (cursor != null && cursor.moveToFirst()) {
                 tableCount = cursor.getInt(0);
+            } else {
+                Log.d("---------------", "La tabla no existe: " + tableName);
             }
-        } else {
-            Log.d("---------------", "no eeta creada la tabla : " + tableName);
+        } catch (Exception e) {
+            Log.e("---------------", "Error al obtener el recuento de la tabla: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
         }
-
         return tableCount;
     }
+
 
 
 
@@ -259,6 +271,7 @@ public class JSQLite {
             db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
+
 
     public void Insertar_02(String tableName, Map<String, Object> entry) {
         if (db != null && db.isOpen()) {
@@ -380,6 +393,5 @@ public class JSQLite {
     }
 
 // ...
-
 }
 

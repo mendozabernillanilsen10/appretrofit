@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.library.database.JSQLite;
-import com.example.library.database.JSQLiteHelper;
+
 
 import java.util.List;
 import java.util.Map;
@@ -36,11 +36,12 @@ public class data_format_1 {
                 if (entry.getValue() instanceof List) {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
-                        jSQLite.InsertarFormato_01(entry.getKey(), map);
-
+                      jSQLite.InsertarFormato_01(entry.getKey(), map);
 
                     }
                 }
+
+
             }else{
                 Log.d("---------------", " no existe  la tabla : " + entry.getKey());
             }

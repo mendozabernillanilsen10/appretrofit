@@ -38,7 +38,7 @@ public class files {
     public static String PROV_TAREO = DIR_RPT + "Tareo/";
 
     //public static String DIR_DB_FINAL = DIR_DB + "gmotareo.sqlite";
-    public static String DIR_DB_FINAL = DIR_DB + "pila";
+    public static String DIR_DB_FINAL = DIR_DB + "fffff";
     public static String LOGS = DIR_TEMP + "logs.txt";
 
 }
