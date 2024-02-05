@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity  {
         v1.setListaUrl(listaUrl , jSQLite);
 
         String s= v1.proceso();
-        sqlite.cerrar();
+        //sqlite.cerrar();
     }
 
 

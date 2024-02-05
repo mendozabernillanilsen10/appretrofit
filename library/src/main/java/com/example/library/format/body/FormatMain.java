@@ -7,6 +7,7 @@ import com.example.library.database.JSQLite;
 import com.example.library.format.formato_t1.data_format_1;
 import com.example.library.format.formato_t2.data_format_2;
 import com.example.library.format.formato_t3.data_format_3;
+import com.example.library.format.formato_t4.data_format_4;
 import com.example.library.format.model.URL;
 import com.example.library.format.retrofit.Service;
 
@@ -57,6 +58,11 @@ public class FormatMain {
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
                 llamadoApiFormato_tres(call ,url.getTabla() );
+            }else if (url.getTipoPetiocion() == 4){
+                Log.d("---------------", url.getUrl());
+                Service interfaceApi = retrofit.create(Service.class);
+                Call<List<Map<String, Object>>> call = interfaceApi.optner_lista_cuatro(endpoint);
+                llamadoApiFormato_cuatro(call ,url.getTabla() );
             }
         }
         return responseBuilder.toString();
@@ -123,7 +129,25 @@ public class FormatMain {
        return "";
    }
 
+    private void llamadoApiFormato_cuatro(Call<List<Map<String, Object>>> call, String TABLE) {
+        data_format_4 dataFormat4 = new data_format_4();
+        call.enqueue(new retrofit2.Callback<List<Map<String, Object>>>() {
+            @Override
+            public void onResponse(Call<List<Map<String, Object>>> call, retrofit2.Response<List<Map<String, Object>>> response) {
+                if (response.isSuccessful()) {
+                    List<Map<String, Object>> dataList = response.body();
 
+                    Log.d("---------------", "data -...........................: " + dataList.toString() + "tabla -...........................: " + TABLE);
+                    dataFormat4.setResponse(dataList, jSQLite,TABLE);
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Map<String, Object>>> call, Throwable t) {
+                Log.d("TAG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
 
 
 

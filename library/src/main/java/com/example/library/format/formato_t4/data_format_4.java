@@ -1,92 +1,104 @@
 package com.example.library.format.formato_t4;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
+import android.database.sqlite.SQLiteConstraintException;
+import android.os.AsyncTask;
+import android.util.Log;
+import com.example.library.database.JSQLite;
 import java.util.List;
 import java.util.Map;
 
-public class data_format_4 implements Serializable {
+public class data_format_4 {
+    private Map<String, Object> response;
+    private boolean status;
+    private JSQLite jSQLite;
+    private String message;
     private List<Map<String, Object>> body;
 
-    public data_format_4(List<Map<String, Object>> body) {
-        this.body = body;
+    public Map<String, Object> getResponse() {
+        return response;
+    }
+    public void setResponse(List<Map<String, Object>> dataList, JSQLite jSQLite, String TABLE) {
+        if (jSQLite != null) {
+            try {
+                // Realiza operaciones de inserción en lote asincrónicamente
+                new DatabaseTask(jSQLite, TABLE, dataList).execute();
+            } catch (SQLiteConstraintException e) {
+                Log.d("---------------", "Error al insertar datos: " + e.getMessage());
+            }
+        } else {
+            Log.e("---------------", "JSQLite es nulo en setResponse");
+        }
     }
 
-    public data_format_4() {
-        // Constructor vacío
-    }
-    public void setBody(List<Map<String, Object>> body) {
-        this.body = body;
+    private static class DatabaseTask extends AsyncTask<Void, Void, Void> {
+        private JSQLite jSQLite;
+        private String TABLE;
+        private List<Map<String, Object>> dataList;
+        private long startTime;
+
+        public DatabaseTask(JSQLite jSQLite, String TABLE, List<Map<String, Object>> dataList) {
+            this.jSQLite = jSQLite;
+            this.TABLE = TABLE;
+            this.dataList = dataList;
+            this.startTime = startTime;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                jSQLite.abrir();
+
+                for (Map<String, Object> item : dataList) {
+                    try {
+                        // Inserta datos en la tabla especificada
+                        if (jSQLite.getTableCount(TABLE) == 1) {
+                            jSQLite.insertarData4(TABLE, item);
+                        }
+                    } catch (SQLiteConstraintException e) {
+                        Log.d("---------------", "Error al insertar datos: " + e.getMessage());
+                    }
+                }
+                //jSQLite.setTransactionSuccessful();
+            } finally {
+                // Asegúrate de cerrar la base de datos después de la operación
+                //jSQLite.cerrar();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Integer insertedRecords) {
+            // Tiempo total de ejecución
+            long totalTime = System.currentTimeMillis() - startTime;
+
+            // Total de registros insertados
+            Log.d("---------------", "Total de registros insertados: " + insertedRecords);
+            Log.d("---------------", "Tiempo de ejecución: " + totalTime + " milisegundos");
+
+            // Actualizaciones de la interfaz de usuario después de completar las operaciones
+        }
     }
 
     public List<Map<String, Object>> getBody() {
         return body;
     }
 
-    public void guardarRegistros(SQLiteDatabase database, long startTime, DataSaveCallback callback) {
-        database.beginTransaction();
-
-        try {
-            List<String> cabeceras = obtenerCabeceras(body);
-            crearTablaDinamica(database, cabeceras);
-
-            for (Map<String, Object> trabajadorMap : body) {
-                ContentValues values = new ContentValues();
-
-                for (String cabecera : cabeceras) {
-                    if (trabajadorMap.containsKey(cabecera)) {
-                        values.put(cabecera, String.valueOf(trabajadorMap.get(cabecera)));
-                    }
-                }
-
-                database.insert("tb_02", null, values);
-            }
-
-            database.setTransactionSuccessful();
-            long insertEndTime = System.currentTimeMillis();
-            long insertTime = insertEndTime - startTime;
-
-            long insertTimeInSeconds = insertTime / 1000;
-            long totalTimeInSeconds = (insertTime) / 1000;
-            // Convertir tiempos a minutos
-            long insertTimeInMinutes = insertTimeInSeconds / 60;
-            long totalTimeInMinutes = totalTimeInSeconds / 60;
-
-            callback.onDataSaveComplete("Inserción: " + insertTimeInSeconds + "s (" + insertTimeInMinutes + "min), " +
-                    "Total: " + totalTimeInSeconds + "s (" + totalTimeInMinutes + "min), " +
-                    "Se guardaron " + body.size() + " registros");
-        } catch (Exception e) {
-            callback.onDataSaveError(e);
-        } finally {
-            database.endTransaction();
-        }
+    public void setBody(List<Map<String, Object>> body) {
+        this.body = body;
     }
 
-    private List<String> obtenerCabeceras(List<Map<String, Object>> registros) {
-        if (!registros.isEmpty()) {
-            Map<String, Object> cabeceras = registros.get(0);
-            return new ArrayList<>(cabeceras.keySet());
-        }
-        return Collections.emptyList();
+    public boolean isStatus() {
+        return status;
     }
 
-    private void crearTablaDinamica(SQLiteDatabase database, List<String> cabeceras) {
-        StringBuilder createTableQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS tb_02 (");
-
-        for (String cabecera : cabeceras) {
-            createTableQuery.append(cabecera).append(" TEXT, ");
-        }
-        createTableQuery.delete(createTableQuery.length() - 2, createTableQuery.length()).append(")");
-        database.execSQL(createTableQuery.toString());
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public interface DataSaveCallback {
-        void onDataSaveComplete(String message);
+    public String getMessage() {
+        return message;
+    }
 
-        void onDataSaveError(Exception e);
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
