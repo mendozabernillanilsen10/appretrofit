@@ -37,6 +37,8 @@ public class data_format_2 {
                         jSQLite.Insertar_02(key, entry_body);
 
 
+                    }else{
+                        Log.d("---------------", " no existe  la tabla : " + key);
                     }
                 }
             }

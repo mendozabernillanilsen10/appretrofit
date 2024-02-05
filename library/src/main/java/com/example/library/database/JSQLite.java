@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.UrlQuerySanitizer;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.library.jpreferences.Pref;
@@ -325,7 +326,6 @@ public class JSQLite {
     public void insertarData4(String tableName, Map<String, Object> data) {
         if (db != null && db.isOpen()) {
             ContentValues values = new ContentValues();
-
             for (Map.Entry<String, Object> entry : data.entrySet()) {
                 // Convert the values to appropriate types based on your database schema
                 if (entry.getValue() instanceof String) {
@@ -338,10 +338,65 @@ public class JSQLite {
                     // Handle other types accordingly
                 }
             }
-            // Insert data into the specified table
-            db.insert(tableName, null, values);
+            db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
+
+
+    // ...
+
+    public static class DatabaseTask extends AsyncTask<Void, Void, Void > {
+        private JSQLite jSQLite;
+        private String TABLE;
+        private List<Map<String, Object>> dataList;
+        public DatabaseTask(JSQLite jSQLite, String TABLE, List<Map<String, Object>> dataList) {
+            this.jSQLite = jSQLite;
+            this.TABLE = TABLE;
+            this.dataList = dataList;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            SQLiteDatabase db = null;
+            try {
+                jSQLite.abrir();
+                db = jSQLite.sqliteHelper.getWritableDatabase();
+                db.beginTransaction();
+
+                if (jSQLite.getTableCount(TABLE) == 1) {
+                    for (Map<String, Object> item : dataList) {
+                        insertarData4(db, TABLE, item);
+                    }
+                    db.setTransactionSuccessful();
+                } else {
+                    Log.d("---------------", " no existe la tabla : " + TABLE);
+                }
+            } finally {
+                if (db != null) {
+                    db.endTransaction();
+                    db.close();
+                }
+                jSQLite.cerrar();
+            }
+            return null;
+        }
+        private void insertarData4(SQLiteDatabase db, String tableName, Map<String, Object> data) {
+            ContentValues values = new ContentValues();
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                // Convert the values to appropriate types based on your database schema
+                if (entry.getValue() instanceof String) {
+                    values.put(entry.getKey(), (String) entry.getValue());
+                } else if (entry.getValue() instanceof Double) {
+                    values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
+                } else if (entry.getValue() instanceof Integer) {
+                    values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
+                } else {
+                }
+            }
+            db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        }
+    }
+
+// ...
+
 }
 
-    // Helper method to get the corresponding header key for a given column name

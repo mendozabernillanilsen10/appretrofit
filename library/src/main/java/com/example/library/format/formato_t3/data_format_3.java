@@ -36,6 +36,8 @@ public class data_format_3 implements Serializable {
                         if (jSQLite.getTableCount(tabla) == 1) {
                             jSQLite.abrir();
                             jSQLite.insertarData3(tabla, header, content);
+                        }else{
+                            Log.d("---------------", " no existe  la tabla : " + tabla);
                         }
 
         Log.d("---------------", "----------------------Insertado Formato 03 -------------------------------------------- ");

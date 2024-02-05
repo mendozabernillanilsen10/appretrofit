@@ -2,7 +2,7 @@ package com.example.library.format.model;
 
 public class URL {
     private String url;
-    private int tipoPetiocion;
+    private int tipoPeticion;
     private String token;
     private String tabla;
 
@@ -10,9 +10,7 @@ public class URL {
         return url;
     }
 
-    public int getTipoPetiocion() {
-        return tipoPetiocion;
-    }
+
 
     public String getToken() {
         return token;
@@ -26,28 +24,44 @@ public class URL {
         this.url = url;
     }
 
-    public URL(String url, int tipoPetiocion) {
+    public void setUrl(String url) {
         this.url = url;
-        this.tipoPetiocion = tipoPetiocion;
     }
 
-    public URL(String url, int tipoPetiocion, String token) {
-        this.url = url;
-        this.tipoPetiocion = tipoPetiocion;
+    public int getTipoPeticion() {
+        return tipoPeticion;
+    }
+
+    public void setTipoPeticion(int tipoPeticion) {
+        this.tipoPeticion = tipoPeticion;
+    }
+
+    public void setToken(String token) {
         this.token = token;
     }
 
-    public URL(String url, int tipoPetiocion, String token, String tabla) {
+    public void setTabla(String tabla) {
+        this.tabla = tabla;
+    }
+
+    public URL(String url, int tipoPeticion) {
         this.url = url;
-        this.tipoPetiocion = tipoPetiocion;
+        this.tipoPeticion = tipoPeticion;
+    }
+
+    public URL(String url, int tipoPeticion, String token) {
+        this.url = url;
+        this.tipoPeticion = tipoPeticion;
+        this.token = token;
+    }
+
+    public URL(String url, int tipoPeticion, String token, String tabla) {
+        this.url = url;
+        this.tipoPeticion = tipoPeticion;
         this.token = token;
         this.tabla = tabla;
     }
 
-
-    @Override
-    public String toString() {
-        // Customize the string representation as needed
-        return "URL: " + this.url + ", Param1: " + this.tipoPetiocion + ", Param2: " + this.token + ", Param3: " + this.tabla;
+    public URL() {
     }
 }

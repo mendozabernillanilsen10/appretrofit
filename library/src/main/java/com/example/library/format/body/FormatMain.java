@@ -37,34 +37,42 @@ public class FormatMain {
 
     public String proceso() {
         StringBuilder responseBuilder = new StringBuilder();
+        long startTime = System.currentTimeMillis();
+
         List<URL> listaUrl = this.listaUrl;
         for (URL url : listaUrl) {
             String baseUrl = obtenerBaseUrl(url.getUrl());
             String endpoint = obtenerEndpoint(url.getUrl());
             Retrofit retrofit = construirRetrofit(baseUrl);
 
-            if (url.getTipoPetiocion() == 1) {
+            if (url.getTipoPeticion() == 1) {
                 Log.d("------formatoUno-------", "------------------------------------------------------------------");
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
                 llamadoApiFormato_uno(call);
-            }else  if(url.getTipoPetiocion() == 2){
+            }else  if(url.getTipoPeticion() == 2){
                 Log.d("----formatodos-----", "------------------------------------------------------------------");
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_dos(endpoint);
                 llamadoApiFormato_dos(call);
-            }else if (url.getTipoPetiocion() == 3){
+            }else if (url.getTipoPeticion() == 3){
                 Log.d("----formatotres-----", "------------------------------------------------------------------");
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
                 llamadoApiFormato_tres(call ,url.getTabla() );
-            }else if (url.getTipoPetiocion() == 4){
+            }else if (url.getTipoPeticion() == 4){
                 Log.d("---------------", url.getUrl());
                 Service interfaceApi = retrofit.create(Service.class);
                 Call<List<Map<String, Object>>> call = interfaceApi.optner_lista_cuatro(endpoint);
                 llamadoApiFormato_cuatro(call ,url.getTabla() );
             }
         }
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+
+
+        responseBuilder.append("Tiempo total de ejecución: ").append(totalTime).append(" ms");
+
         return responseBuilder.toString();
     }
 
@@ -148,14 +156,6 @@ public class FormatMain {
             }
         });
     }
-
-
-
-
-
-
-
-
 
 
     private String obtenerEndpoint(String fullUrl) {

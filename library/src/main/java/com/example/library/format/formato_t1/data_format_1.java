@@ -36,11 +36,11 @@ public class data_format_1 {
                 if (entry.getValue() instanceof List) {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
-                        // Log key-value pairs within the list
                         jSQLite.InsertarFormato_01(entry.getKey(), map);
                     }
                 }
-
+            }else{
+                Log.d("---------------", " no existe  la tabla : " + entry.getKey());
             }
         }
         Log.d("---------------", "----------------------Insertado Formato 01 -------------------------------------------- ");

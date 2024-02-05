@@ -12,69 +12,28 @@ public class data_format_4 {
     private boolean status;
     private JSQLite jSQLite;
     private String message;
+    private  String TABLE;
     private List<Map<String, Object>> body;
 
     public Map<String, Object> getResponse() {
         return response;
     }
-    public void setResponse(List<Map<String, Object>> dataList, JSQLite jSQLite, String TABLE) {
-        if (jSQLite != null) {
+    public void setResponse(List<Map<String, Object>> dataList,JSQLite db, String TABLE) {
+        this.body = dataList;
+        this.TABLE = TABLE;
+        this.jSQLite = db;
+
+        if (this != null) {
             try {
-                // Realiza operaciones de inserción en lote asincrónicamente
-                new DatabaseTask(jSQLite, TABLE, dataList).execute();
+                this.jSQLite.abrir();
+                // Crea una instancia de DatabaseTask y ejecútala
+                JSQLite.DatabaseTask databaseTask = new JSQLite.DatabaseTask(this.jSQLite, TABLE, dataList);
+                databaseTask.execute();
             } catch (SQLiteConstraintException e) {
                 Log.d("---------------", "Error al insertar datos: " + e.getMessage());
             }
         } else {
             Log.e("---------------", "JSQLite es nulo en setResponse");
-        }
-    }
-
-    private static class DatabaseTask extends AsyncTask<Void, Void, Void> {
-        private JSQLite jSQLite;
-        private String TABLE;
-        private List<Map<String, Object>> dataList;
-        private long startTime;
-
-        public DatabaseTask(JSQLite jSQLite, String TABLE, List<Map<String, Object>> dataList) {
-            this.jSQLite = jSQLite;
-            this.TABLE = TABLE;
-            this.dataList = dataList;
-            this.startTime = startTime;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                jSQLite.abrir();
-
-                for (Map<String, Object> item : dataList) {
-                    try {
-                        // Inserta datos en la tabla especificada
-                        if (jSQLite.getTableCount(TABLE) == 1) {
-                            jSQLite.insertarData4(TABLE, item);
-                        }
-                    } catch (SQLiteConstraintException e) {
-                        Log.d("---------------", "Error al insertar datos: " + e.getMessage());
-                    }
-                }
-                //jSQLite.setTransactionSuccessful();
-            } finally {
-                // Asegúrate de cerrar la base de datos después de la operación
-                //jSQLite.cerrar();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(Integer insertedRecords) {
-            // Tiempo total de ejecución
-            long totalTime = System.currentTimeMillis() - startTime;
-
-            // Total de registros insertados
-            Log.d("---------------", "Total de registros insertados: " + insertedRecords);
-            Log.d("---------------", "Tiempo de ejecución: " + totalTime + " milisegundos");
-
-            // Actualizaciones de la interfaz de usuario después de completar las operaciones
         }
     }
 
