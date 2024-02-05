@@ -238,6 +238,8 @@ public class JSQLite {
 
 
 
+
+
     public void InsertarFormato_01(String tableName, Map<String, Object> data) {
         if (db != null && db.isOpen()) {
             ContentValues values = new ContentValues();
@@ -257,18 +259,6 @@ public class JSQLite {
             db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void Insertar_02(String tableName, Map<String, Object> entry) {
         if (db != null && db.isOpen()) {
