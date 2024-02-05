@@ -34,7 +34,53 @@ public class FormatMain {
         return listaUrl;
     }
 
+    public String proceso() {
+        StringBuilder responseBuilder = new StringBuilder();
+        long startTime = System.currentTimeMillis();
 
+        try {
+            for (URL url : listaUrl) {
+                String baseUrl = obtenerBaseUrl(url.getUrl());
+                String endpoint = obtenerEndpoint(url.getUrl());
+                Retrofit retrofit = construirRetrofit(baseUrl);
+                Service interfaceApi = retrofit.create(Service.class);
+
+                switch (url.getTipoPeticion()) {
+                    case 1:
+                        Log.d("------formatoUno-------", "------------------------------------------------------------------");
+                        Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
+                        llamadoApiFormato_uno(call);
+                        break;
+                    case 2:
+                        Log.d("----formatodos-----", "------------------------------------------------------------------");
+                        Call<Map<String, Object>> call2 = interfaceApi.optner_lista_dos(endpoint);
+                        llamadoApiFormato_dos(call2);
+
+                        break;
+                    case 3:
+                        Log.d("----formatotres-----", "------------------------------------------------------------------");
+                        Call<Map<String, Object>> call3 = interfaceApi.optner_lista_tres(endpoint);
+                        llamadoApiFormato_tres(call3 ,url.getTabla() );
+                        break;
+                    case 4:
+                        Log.d("---------------", url.getUrl());
+                        Call<List<Map<String, Object>>> call4 = interfaceApi.optner_lista_cuatro(endpoint);
+                        llamadoApiFormato_cuatro(call4 ,url.getTabla() );
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            // Manejar errores o registrar mensajes según sea necesario
+            Log.e("FormatMain", "Error durante el proceso: " + e.getMessage());
+        }
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        responseBuilder.append("Total time: ").append(totalTime).append(" ms");
+
+        return responseBuilder.toString();
+    }
+    /*
     public String proceso() {
         StringBuilder responseBuilder = new StringBuilder();
         long startTime = System.currentTimeMillis();
@@ -72,8 +118,7 @@ public class FormatMain {
         return responseBuilder.toString();
     }
 
-
-
+    */
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
             @Override
