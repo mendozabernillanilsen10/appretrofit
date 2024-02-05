@@ -16,15 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <Button
-                android:id="@+id/filledTonalButton"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/md_theme_dark_inversePrimary"
-                android:text="Descargar e Insertar Data" />
 
             <TextView
                 android:id="@+id/textView"
@@ -34,6 +25,13 @@
                 android:textSize="16sp"
                 android:text="..." />
 
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:text="Descargar e Insertar Data"
+                android:background="@color/md_theme_dark_inversePrimary" />
 
 
         </LinearLayout>

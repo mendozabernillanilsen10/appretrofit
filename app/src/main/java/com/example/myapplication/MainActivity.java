@@ -24,7 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity  {
     private TextView textView;
 
-    private Button filledTonalButton;
+    private Button button;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private void initView( ) {
         textView = findViewById(R.id.textView);
-        filledTonalButton = findViewById(R.id.filledTonalButton);
+        button = findViewById(R.id.button);
         SQLite sqlite = new SQLite(this);
         sqlite.abrir();
         JSQLite jSQLite = new JSQLite(this, jdir.pathPrincipal((AppCompatActivity) this) + files.DIR_DB_FINAL, 206);
@@ -46,7 +46,15 @@ public class MainActivity extends AppCompatActivity  {
         String s= v1.proceso();
         textView.setText(s);
 
+        button.setOnClickListener(v -> {
+            FormatMain v2 = new FormatMain();
+            v2.setListaUrl(new ListaUrl().pbjeto_04() , jSQLite);
+            String s1= v2.proceso();
+        });
+
     }
+
+
 
 }
 

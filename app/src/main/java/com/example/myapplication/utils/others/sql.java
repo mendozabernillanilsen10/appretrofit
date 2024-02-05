@@ -44,7 +44,7 @@ public class sql {
             "    descripcion      varchar(300) NULL,\n" +
             "    descripcioncorta varchar(30)  NULL,\n" +
             "    activo           tinyint      NULL,\n" +
-            "    fechacreacion     DATETIME       DEFAULT (datetime(current_timestamp, 'localtime'))\n" +
+            "    fechacreacion    DATETIME     DEFAULT (datetime(current_timestamp, 'localtime'))\n" +
             ");\n" +
             "CREATE TABLE IF NOT EXISTS cliente (\n" +
             "  idcliente     VARCHAR(11) PRIMARY KEY,\n" +
