@@ -117,7 +117,6 @@ public class FormatMain {
         responseBuilder.append("Total time: ").append(totalTime).append(" ms");
         return responseBuilder.toString();
     }
-
     */
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
@@ -128,7 +127,6 @@ public class FormatMain {
                     data_format_1 dataFormat1 = new data_format_1();
                     dataFormat1.setResponse(map , jSQLite);
                 } else {
-
                 }
             }
             @Override
@@ -146,9 +144,7 @@ public class FormatMain {
                 if (response.isSuccessful()) {
                      Map<String, Object> map = response.body();
                      data_format_2 dataFormat = new data_format_2();
-                    // Log.d("---------------", "data -...........................: " + map.toString());
                       dataFormat.setResponse(map , jSQLite);
-                } else {
                 }
            }
            @Override
@@ -212,7 +208,6 @@ public class FormatMain {
         if (lastSlashIndex != -1) {
             return fullUrl.substring(0, lastSlashIndex + 1); // Including "/"
         } else {
-            // If there's no "/", consider the entire URL as the base URL
             return fullUrl;
         }
     }
@@ -227,7 +222,6 @@ public class FormatMain {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
     }
 
 
@@ -235,11 +229,7 @@ public class FormatMain {
         this.listaUrl = listaUrl;
         this.jSQLite = jSQLite;
     }
-
     public FormatMain() {
         // Default constructor
     }
-
-    // Additional constructor to handle List<ULR>
-
 }

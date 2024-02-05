@@ -14,7 +14,6 @@ public class data_format_4 {
     private String message;
     private  String TABLE;
     private List<Map<String, Object>> body;
-
     public Map<String, Object> getResponse() {
         return response;
     }
@@ -41,27 +40,21 @@ public class data_format_4 {
             this.jSQLite.cerrar();
         }
     }
-
     public List<Map<String, Object>> getBody() {
         return body;
     }
-
     public void setBody(List<Map<String, Object>> body) {
         this.body = body;
     }
-
     public boolean isStatus() {
         return status;
     }
-
     public void setStatus(boolean status) {
         this.status = status;
     }
-
     public String getMessage() {
         return message;
     }
-
     public void setMessage(String message) {
         this.message = message;
     }
