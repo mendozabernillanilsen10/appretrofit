@@ -247,11 +247,6 @@ public class JSQLite {
         return tableCount;
     }
 
-
-
-
-
-
     public void InsertarFormato_01(String tableName, Map<String, Object> data) {
         if (db != null && db.isOpen()) {
             ContentValues values = new ContentValues();
@@ -341,7 +336,7 @@ public class JSQLite {
     }
 
 
-    public static class insertarData4 extends AsyncTask<Void, Void, Void > {
+    public static class insertarData4 extends AsyncTask<Void, Void, Void> {
         private JSQLite jSQLite;
         private String TABLE;
         private List<Map<String, Object>> dataList;
@@ -361,21 +356,24 @@ public class JSQLite {
                 db = jSQLite.sqliteHelper.getWritableDatabase();
                 db.beginTransaction();
 
+                try {
                     for (Map<String, Object> item : dataList) {
-                        insertarData4(db, TABLE, item);
+                        insertarData(db, TABLE, item);
                     }
                     db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
 
             } finally {
                 if (db != null) {
-                    db.endTransaction();
                     db.close();
                 }
             }
             return null;
         }
 
-        private void insertarData4(SQLiteDatabase db, String tableName, Map<String, Object> data) {
+        private void insertarData(SQLiteDatabase db, String tableName, Map<String, Object> data) {
             ContentValues values = new ContentValues();
             for (Map.Entry<String, Object> entry : data.entrySet()) {
                 // Convert the values to appropriate types based on your database schema
@@ -385,8 +383,7 @@ public class JSQLite {
                     values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
                 } else if (entry.getValue() instanceof Integer) {
                     values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
-                } else {
-                }
+                } // Handle other data types if needed
             }
             db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }

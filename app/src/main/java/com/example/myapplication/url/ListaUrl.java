@@ -26,7 +26,7 @@ public class ListaUrl  {
         listaUrl.add(new URL("http://52.3.85.45/dashboard/agv/gmotareo/get/GetQuery.php?iddatabase=AGROVISIONTEAM&query=exec GetListTrabTotal_mobile 'AGROVISIONCORP';",
                 4, "", "trabajadores_global"));
 
-    }
+    }'i'
     public List<URL> getListaUrl() {
         return listaUrl;
     }
