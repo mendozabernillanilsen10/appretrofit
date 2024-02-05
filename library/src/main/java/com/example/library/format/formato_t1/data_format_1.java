@@ -37,8 +37,11 @@ public class data_format_1 {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
                       jSQLite.InsertarFormato_01(entry.getKey(), map);
+
                     }
                 }
+
+
             }else{
                 Log.d("---------------", " no existe  la tabla : " + entry.getKey());
             }
@@ -49,9 +52,11 @@ public class data_format_1 {
     public List<Map<String, Object>>  getIten( String key) {
         return (List<Map<String, Object>>) body.get(key);
     }
+
     public boolean isStatus() {
         return status;
     }
+
     public void setStatus(boolean status) {
         this.status = status;
     }

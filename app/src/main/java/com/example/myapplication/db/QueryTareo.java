@@ -1,5 +1,11 @@
 package com.example.myapplication.db;
 
+
+
+/**
+ * Created by Asus on 02/02/2018.
+ */
+
 public class QueryTareo {
 
 

@@ -19,6 +19,7 @@ import java.util.List;
 public class SQLiteHelper extends JSQLiteHelper {
     public static int versionDB = 206;
 
+
     private Context context;
     public List<String> TABLAS;
     public SQLiteHelper(Context context) {
@@ -37,6 +38,9 @@ public class SQLiteHelper extends JSQLiteHelper {
         }
         return tableCount;
     }
+
+
+
 
 
     public void reQuery(SQLiteDatabase db) {
