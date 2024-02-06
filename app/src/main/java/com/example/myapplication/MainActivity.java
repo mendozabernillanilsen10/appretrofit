@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity  {
         String s= v1.proceso();
         textView.setText(s);
 
-     
-
-
 
     }
 

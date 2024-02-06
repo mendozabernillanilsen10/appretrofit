@@ -127,8 +127,6 @@ public class FormatMain {
                    Map<String, Object> map = response.body();
                    data_format_3 dataFormat = new data_format_3();
                    dataFormat.setBody(map, jSQLite,Table);
-
-
                } else {
                }
            }
@@ -147,7 +145,6 @@ public class FormatMain {
                     data_format_4 dataFormat4 = new data_format_4();
                     List<Map<String, Object>> dataList = response.body();
                     dataFormat4.setResponse(dataList, jSQLite,TABLE);
-
                 } else {
                 }
             }

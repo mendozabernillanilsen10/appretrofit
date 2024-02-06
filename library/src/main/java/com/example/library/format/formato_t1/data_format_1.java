@@ -41,7 +41,6 @@ public class data_format_1 {
                     }
                 }
 
-
             }else{
                 Log.d("---------------", " no existe  la tabla : " + entry.getKey());
 

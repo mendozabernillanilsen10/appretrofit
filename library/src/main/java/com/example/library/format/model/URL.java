@@ -10,8 +10,6 @@ public class URL {
         return url;
     }
 
-
-
     public String getToken() {
         return token;
     }
