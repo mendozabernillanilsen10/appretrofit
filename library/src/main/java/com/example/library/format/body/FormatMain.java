@@ -33,7 +33,6 @@ public class FormatMain {
     public List<URL> getListaUrl() {
         return listaUrl;
     }
-
     public String proceso() {
         StringBuilder responseBuilder = new StringBuilder();
         long startTime = System.currentTimeMillis();
@@ -73,52 +72,12 @@ public class FormatMain {
             // Manejar errores o registrar mensajes según sea necesario
             Log.e("FormatMain", "Error durante el proceso: " + e.getMessage());
         }
-
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         responseBuilder.append("Total time: ").append(totalTime).append(" ms");
 
         return responseBuilder.toString();
     }
-    /*
-    public String proceso() {
-        StringBuilder responseBuilder = new StringBuilder();
-        long startTime = System.currentTimeMillis();
-
-        List<URL> listaUrl = this.listaUrl;
-        for (URL url : listaUrl) {
-            String baseUrl = obtenerBaseUrl(url.getUrl());
-            String endpoint = obtenerEndpoint(url.getUrl());
-            Retrofit retrofit = construirRetrofit(baseUrl);
-            if (url.getTipoPeticion() == 1) {
-                Log.d("------formatoUno-------", "------------------------------------------------------------------");
-                Service interfaceApi = retrofit.create(Service.class);
-                Call<Map<String, Object>> call = interfaceApi.optner_lista_uno(endpoint);
-                llamadoApiFormato_uno(call);
-            }else  if(url.getTipoPeticion() == 2){
-                Log.d("----formatodos-----", "------------------------------------------------------------------");
-                Service interfaceApi = retrofit.create(Service.class);
-                Call<Map<String, Object>> call = interfaceApi.optner_lista_dos(endpoint);
-                llamadoApiFormato_dos(call);
-            }else if (url.getTipoPeticion() == 3){
-                Log.d("----formatotres-----", "------------------------------------------------------------------");
-                Service interfaceApi = retrofit.create(Service.class);
-                Call<Map<String, Object>> call = interfaceApi.optner_lista_tres(endpoint);
-                llamadoApiFormato_tres(call ,url.getTabla() );
-            }else if (url.getTipoPeticion() == 4){
-                Log.d("---------------", url.getUrl());
-                Service interfaceApi = retrofit.create(Service.class);
-                Call<List<Map<String, Object>>> call = interfaceApi.optner_lista_cuatro(endpoint);
-                llamadoApiFormato_cuatro(call ,url.getTabla() );
-            }
-        }
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        responseBuilder.append("Total time: ").append(totalTime).append(" ms");
-        return responseBuilder.toString();
-    }
-
-    */
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
             @Override
@@ -127,6 +86,7 @@ public class FormatMain {
                     Map<String, Object> map = response.body();
                     data_format_1 dataFormat1 = new data_format_1();
                     dataFormat1.setResponse(map , jSQLite);
+
                 } else {
 
                 }
@@ -147,7 +107,8 @@ public class FormatMain {
                      Map<String, Object> map = response.body();
                      data_format_2 dataFormat = new data_format_2();
                     // Log.d("---------------", "data -...........................: " + map.toString());
-                      dataFormat.setResponse(map , jSQLite);
+                    dataFormat.setResponse(map , jSQLite);
+
                 } else {
                 }
            }
@@ -166,6 +127,8 @@ public class FormatMain {
                    Map<String, Object> map = response.body();
                    data_format_3 dataFormat = new data_format_3();
                    dataFormat.setBody(map, jSQLite,Table);
+
+
                } else {
                }
            }
@@ -177,14 +140,14 @@ public class FormatMain {
        return "";
    }
     private void llamadoApiFormato_cuatro(Call<List<Map<String, Object>>> call, String TABLE) {
-        data_format_4 dataFormat4 = new data_format_4();
         call.enqueue(new retrofit2.Callback<List<Map<String, Object>>>() {
             @Override
             public void onResponse(Call<List<Map<String, Object>>> call, retrofit2.Response<List<Map<String, Object>>> response) {
                 if (response.isSuccessful()) {
+                    data_format_4 dataFormat4 = new data_format_4();
                     List<Map<String, Object>> dataList = response.body();
-                    Log.d("---------------", "data -...........................: " + dataList.toString() + "tabla -...........................: " + TABLE);
                     dataFormat4.setResponse(dataList, jSQLite,TABLE);
+
                 } else {
                 }
             }

@@ -24,10 +24,10 @@ public class ListaUrl  {
 
 
         listaUrl.add(new URL("http://52.3.85.45/dashboard/agv/gmotareo/get/ListTrabajadores2021.php?iddatabase=AGROVISIONTEAM&iddatabase2=AGROVISIONCORP&idempresa=001",
-                4, "", "tabla_api4_02"));
- /*
+                1, "", "tabla_api4_02"));
+
         listaUrl.add(new URL("http://52.3.85.45/dashboard/agv/gmotareo/get/GetQuery.php?iddatabase=AGROVISIONTEAM&query=exec GetListTrabTotal_mobile 'AGROVISIONCORP';",
-                4, "", "trabajadores_global"));*/
+                4, "", "trabajadores_global"));
 
     }
 

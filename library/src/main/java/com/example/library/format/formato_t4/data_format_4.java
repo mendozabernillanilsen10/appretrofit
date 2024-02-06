@@ -38,7 +38,6 @@ public class data_format_4 {
             // Cerrar la base de datos después de intentar la inserción
 
 
-            this.jSQLite.cerrar();
         }
     }
 

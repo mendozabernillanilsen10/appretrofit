@@ -47,11 +47,7 @@ public class MainActivity extends AppCompatActivity  {
         String s= v1.proceso();
         textView.setText(s);
 
-        button.setOnClickListener(v -> {
-            FormatMain v2 = new FormatMain();
-            v2.setListaUrl(new ListaUrl().pbjeto_04() , jSQLite);
-            String s1= v2.proceso();
-        });
+     
 
 
 

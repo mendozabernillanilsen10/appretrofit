@@ -367,7 +367,6 @@ public class JSQLite {
 
             } finally {
                 if (db != null) {
-                    db.close();
                 }
             }
             return null;
