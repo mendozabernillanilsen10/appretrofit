@@ -19,5 +19,6 @@ public interface Service {
     Call<Map<String, Object>> optner_lista_tres(@Url String fullUrl);
     @GET
     Call<List<Map<String, Object>>>optner_lista_cuatro(@Url String fullUrl);
+    //Call<List<Map<String, Object>>>optner_lista_cuatro(@Url String fullUrl, @Header("Authorization") String token);
 
 }

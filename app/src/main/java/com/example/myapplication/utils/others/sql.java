@@ -461,7 +461,7 @@ public class sql {
             ");\n" +
             "CREATE TABLE IF NOT EXISTS trabajador (\n" +
             "  iddatabase      VARCHAR(25) NOT NULL,\n" +
-            "  idempresa       char(3)           NULL,\n" +
+            "  idempresa       char(3)     NOT NULL,\n" +
             "  idtrabajador    char(8)     NOT NULL,\n" +
             "  appaterno       VARCHAR(50) default '' NOT NULL,\n" +
             "  apmaterno       VARCHAR(50) default '' NOT NULL,\n" +

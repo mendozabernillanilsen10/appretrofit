@@ -30,10 +30,12 @@ public class ListaUrl  {
                 4, "", "trabajadores_global"));
 
     }
+
+
     public List<URL> pbjeto_04() {
         this.listaUrl = new ArrayList<>();
-        listaUrl.add(new URL("http://34.194.71.145/dashboardQA/agv/gmotareo/get/ListTrabajadores2021.php?iddatabase=AGVTEAM_TEST&iddatabase2=AGROVISIONCORP&idempresa=001",
-                4, "", "trabajador"));
+        listaUrl.add(new URL("http://52.3.85.45/dashboard/agv/gmotareo/get/GetQuery.php?iddatabase=AGROVISIONTEAM&query=exec GetListTrabTotal_mobile 'AGROVISIONCORP';",
+                4, "", "trabajadores_global"));
         return listaUrl;
     }
 

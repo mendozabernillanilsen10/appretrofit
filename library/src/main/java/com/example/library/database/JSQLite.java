@@ -4,7 +4,6 @@ package com.example.library.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.UrlQuerySanitizer;
@@ -335,6 +334,8 @@ public class JSQLite {
             }
         }
     }
+
+
     public static class insertarData4 extends AsyncTask<Void, Void, Void> {
         private JSQLite jSQLite;
         private String TABLE;
@@ -344,6 +345,7 @@ public class JSQLite {
             this.TABLE = TABLE;
             this.dataList = dataList;
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
             SQLiteDatabase db = null;
@@ -361,31 +363,27 @@ public class JSQLite {
                     db.endTransaction();
                 }
             } finally {
-
                 if (db != null) {
-                    db.endTransaction();
                 }
             }
             return null;
         }
         private void insertarData(SQLiteDatabase db, String tableName, Map<String, Object> data) {
             ContentValues values = new ContentValues();
-
-                for (Map.Entry<String, Object> entry : data.entrySet()) {
-                    // Convert the values to appropriate types based on your database schema
-                    if (entry.getValue() instanceof String) {
-                        values.put(entry.getKey(), (String) entry.getValue());
-                    } else if (entry.getValue() instanceof Double) {
-                        values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
-                    } else if (entry.getValue() instanceof Integer) {
-                        values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
-                    } // Handle other data types if needed
-                }
-                db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                // Convert the values to appropriate types based on your database schema
+                if (entry.getValue() instanceof String) {
+                    values.put(entry.getKey(), (String) entry.getValue());
+                } else if (entry.getValue() instanceof Double) {
+                    values.put(entry.getKey(), Double.toString((Double) entry.getValue()));
+                } else if (entry.getValue() instanceof Integer) {
+                    values.put(entry.getKey(), Integer.toString((Integer) entry.getValue()));
+                } // Handle other data types if needed
+            }
+            db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
-
     }
+
 // ...
 }
 
