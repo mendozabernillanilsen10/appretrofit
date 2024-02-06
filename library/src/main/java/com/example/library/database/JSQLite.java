@@ -340,7 +340,6 @@ public class JSQLite {
         private JSQLite jSQLite;
         private String TABLE;
         private List<Map<String, Object>> dataList;
-
         public insertarData4(JSQLite jSQLite, String TABLE, List<Map<String, Object>> dataList) {
             this.jSQLite = jSQLite;
             this.TABLE = TABLE;
@@ -363,14 +362,12 @@ public class JSQLite {
                 } finally {
                     db.endTransaction();
                 }
-
             } finally {
                 if (db != null) {
                 }
             }
             return null;
         }
-
         private void insertarData(SQLiteDatabase db, String tableName, Map<String, Object> data) {
             ContentValues values = new ContentValues();
             for (Map.Entry<String, Object> entry : data.entrySet()) {
