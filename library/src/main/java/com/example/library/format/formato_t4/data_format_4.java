@@ -27,8 +27,14 @@ public class data_format_4 {
             this.jSQLite.abrir();
 
             if (jSQLite.getTableCount(TABLE) == 1) {
-                JSQLite.insertarData4 databaseTask = new JSQLite.insertarData4(this.jSQLite, TABLE, dataList);
-                databaseTask.execute();
+
+                try {
+                    JSQLite.insertarData4 databaseTask = new JSQLite.insertarData4(this.jSQLite, TABLE, dataList);
+                    databaseTask.execute();
+                } catch (SQLiteConstraintException e) {
+                    Log.d("---------------", "Error al insertar datos  datos: " + e.getMessage());
+                }
+
             } else {
                 Log.d("---------------", "No existe la tabla: " + TABLE);
             }
@@ -36,8 +42,6 @@ public class data_format_4 {
             Log.d("---------------", "Error al insertar datos: " + e.getMessage());
         } finally {
             // Cerrar la base de datos después de intentar la inserción
-
-
         }
     }
 

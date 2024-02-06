@@ -22,14 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormatMain {
     private List<URL> listaUrl;
-
     JSQLite jSQLite;
 
     public FormatMain(List<URL> listaUrl, JSQLite jSQLite) {
         this.listaUrl = listaUrl;
         this.jSQLite = jSQLite;
     }
-
     public List<URL> getListaUrl() {
         return listaUrl;
     }
@@ -75,7 +73,6 @@ public class FormatMain {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         responseBuilder.append("Total time: ").append(totalTime).append(" ms");
-
         return responseBuilder.toString();
     }
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
@@ -98,7 +95,6 @@ public class FormatMain {
         });
         return "";
     }
-
    private String llamadoApiFormato_dos(Call<Map<String, Object>> call){
        call.enqueue(new Callback<Map<String, Object>>() {
            @Override

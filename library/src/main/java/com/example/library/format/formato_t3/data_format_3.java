@@ -22,8 +22,6 @@ public class data_format_3 implements Serializable {
         this.content = content;
     }
 
-
-
     public Map<String, Object> getBody() {
         return body;
     }
@@ -39,8 +37,5 @@ public class data_format_3 implements Serializable {
                 Log.d("---------------", " no existe  la tabla : " + tabla);
             }
         Log.d("---------------", "----------------------Insertado Formato 03 -------------------------------------------- ");
-
     }
-
-
 }

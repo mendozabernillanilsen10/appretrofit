@@ -40,17 +40,14 @@ public class MainActivity extends AppCompatActivity  {
         SQLite sqlite = new SQLite(this);
         sqlite.abrir();
         JSQLite jSQLite = new JSQLite(this, jdir.pathPrincipal((AppCompatActivity) this) + files.DIR_DB_FINAL, 206);
-        List<URL> listaUrl = new ListaUrl().getListaUrl();
+        ListaUrl listaUrl1 = new ListaUrl();
+        List<URL> listaUrl = listaUrl1.pbjeto_04();
         FormatMain v1 = new FormatMain();
 
         v1.setListaUrl(listaUrl , jSQLite);
         String s= v1.proceso();
         textView.setText(s);
-
-
     }
-
-
 
 }
 
