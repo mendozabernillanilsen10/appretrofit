@@ -355,7 +355,6 @@ public class JSQLite {
 
                 db = jSQLite.sqliteHelper.getWritableDatabase();
                 db.beginTransaction();
-
                 try {
                     for (Map<String, Object> item : dataList) {
                         insertarData(db, TABLE, item);
