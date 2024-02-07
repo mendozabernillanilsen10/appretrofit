@@ -37,7 +37,6 @@ public class data_format_1 {
                     List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
                     for (Map<String, Object> map : list) {
                       jSQLite.InsertarFormato_01(entry.getKey(), map);
-
                     }
                 }
 

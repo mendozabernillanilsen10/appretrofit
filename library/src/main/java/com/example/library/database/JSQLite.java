@@ -294,13 +294,11 @@ public class JSQLite {
             }
         }
     }
-
     public void insertarData3(String tableName, List<String> headerList, List<Map<String, Object>> content) {
         if (db != null && db.isOpen()) {
             if (tableName != null && !tableName.isEmpty()) {
                 try {
                     db.beginTransaction();
-
                     for (Map<String, Object> contentMap : content) {
                         ContentValues values = new ContentValues();
                         for (int i = 0; i < headerList.size(); i++) {
@@ -322,7 +320,6 @@ public class JSQLite {
                         // Realiza la inserción en la base de datos
                         db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                     }
-
                     db.setTransactionSuccessful();
                 } catch (SQLiteException e) {
                     Log.e("Error", "Error durante la transacción de inserción: " + e.getMessage());
@@ -334,7 +331,6 @@ public class JSQLite {
             }
         }
     }
-
 
     public static class insertarData4 extends AsyncTask<Void, Void, Void> {
         private JSQLite jSQLite;

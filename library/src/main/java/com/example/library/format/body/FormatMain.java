@@ -22,14 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormatMain {
     private List<URL> listaUrl;
-
     JSQLite jSQLite;
 
     public FormatMain(List<URL> listaUrl, JSQLite jSQLite) {
         this.listaUrl = listaUrl;
         this.jSQLite = jSQLite;
     }
-
     public List<URL> getListaUrl() {
         return listaUrl;
     }
@@ -54,7 +52,6 @@ public class FormatMain {
                         Log.d("----formatodos-----", "------------------------------------------------------------------");
                         Call<Map<String, Object>> call2 = interfaceApi.optner_lista_dos(endpoint);
                         llamadoApiFormato_dos(call2);
-
                         break;
                     case 3:
                         Log.d("----formatotres-----", "------------------------------------------------------------------");
@@ -75,18 +72,21 @@ public class FormatMain {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         responseBuilder.append("Total time: ").append(totalTime).append(" ms");
-
         return responseBuilder.toString();
     }
     private String  llamadoApiFormato_uno(Call<Map<String, Object>> call) {
+        long startTime = System.currentTimeMillis();
+        StringBuilder responseBuilder = new StringBuilder();
         call.enqueue(new retrofit2.Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, retrofit2.Response<Map<String, Object>> response) {
+                long endTime = System.currentTimeMillis(); // Obtener el tiempo de finalización
                 if (response.isSuccessful()) {
                     Map<String, Object> map = response.body();
                     data_format_1 dataFormat1 = new data_format_1();
                     dataFormat1.setResponse(map , jSQLite);
-
+                    long downloadTime = endTime - startTime; // Calcular el tiempo de descarga en milisegundos
+                    responseBuilder.append("Tiempo de descarga: format 02 : ").append(downloadTime).append(" ms");
                 } else {
 
                 }
@@ -98,18 +98,21 @@ public class FormatMain {
         });
         return "";
     }
-
    private String llamadoApiFormato_dos(Call<Map<String, Object>> call){
+       long startTime = System.currentTimeMillis();
+        StringBuilder responseBuilder = new StringBuilder();
        call.enqueue(new Callback<Map<String, Object>>() {
            @Override
            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                if (response.isSuccessful()) {
+               long endTime = System.currentTimeMillis(); // Obtener el tiempo de finalización
+               if (response.isSuccessful()) {
                      Map<String, Object> map = response.body();
                      data_format_2 dataFormat = new data_format_2();
-                    // Log.d("---------------", "data -...........................: " + map.toString());
-                    dataFormat.setResponse(map , jSQLite);
-
+                     dataFormat.setResponse(map , jSQLite);
+                    long downloadTime = endTime - startTime; // Calcular el tiempo de descarga en milisegundos
+                    responseBuilder.append("Tiempo de descarga: format 02 : ").append(downloadTime).append(" ms");
                 } else {
+
                 }
            }
            @Override
@@ -117,17 +120,25 @@ public class FormatMain {
 
            }
        });
-        return "";
+        return responseBuilder.toString();
    }
    private String llamadoApiFormato_tres(Call<Map<String, Object>> call , String Table) {
+       long startTime = System.currentTimeMillis();
+       StringBuilder responseBuilder = new StringBuilder();
        call.enqueue(new Callback<Map<String, Object>>() {
            @Override
            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+               long endTime = System.currentTimeMillis(); // Obtener el tiempo de finalización
+
                if (response.isSuccessful()) {
                    Map<String, Object> map = response.body();
                    data_format_3 dataFormat = new data_format_3();
                    dataFormat.setBody(map, jSQLite,Table);
+                   long downloadTime = endTime - startTime;
+                   responseBuilder.append("Tiempo de descarga: format 03 : ").append(downloadTime).append(" ms");
+
                } else {
+
                }
            }
            @Override
@@ -135,17 +146,26 @@ public class FormatMain {
 
            }
        });
-       return "";
+       return responseBuilder.toString();
+
    }
     private void llamadoApiFormato_cuatro(Call<List<Map<String, Object>>> call, String TABLE) {
+        long startTime = System.currentTimeMillis();
+        StringBuilder responseBuilder = new StringBuilder();
         call.enqueue(new retrofit2.Callback<List<Map<String, Object>>>() {
             @Override
             public void onResponse(Call<List<Map<String, Object>>> call, retrofit2.Response<List<Map<String, Object>>> response) {
+                long endTime = System.currentTimeMillis(); // Obtener el tiempo de finalización
+
                 if (response.isSuccessful()) {
                     data_format_4 dataFormat4 = new data_format_4();
                     List<Map<String, Object>> dataList = response.body();
                     dataFormat4.setResponse(dataList, jSQLite,TABLE);
+                    long downloadTime = endTime - startTime;
+                    responseBuilder.append("Tiempo de descarga: format 04 :").append(downloadTime).append(" ms");
+
                 } else {
+
                 }
             }
             @Override
@@ -154,8 +174,6 @@ public class FormatMain {
             }
         });
     }
-
-
     private String obtenerEndpoint(String fullUrl) {
         int lastSlashIndex = fullUrl.lastIndexOf("/");
 
